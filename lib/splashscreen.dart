@@ -1,5 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:progettoaspdm/register.dart';
+
+import 'home.dart';
+import 'login.dart';
 
 // Schermata iniziale: visualizzazione splash screen
 class App extends StatelessWidget {
@@ -8,15 +12,20 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      title: 'Progetto ASPDM',
+      //home: SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => SplashScreen(),
+        '/login': (context) => Login(),
+        '/register': (context) => Register(),
+      },
     );
   }
 }
 
 // Implementazione splash screen
 class SplashScreen extends StatefulWidget {
-
-  SplashScreen();
 
   // Definizione della splash screen
   @override
@@ -34,10 +43,10 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 3),
           () {
         // Apertura schermata di inserimento dati
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => Login()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Home()));
       },
     );
   }
