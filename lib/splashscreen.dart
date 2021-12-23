@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:progettoaspdm/register.dart';
+import 'package:progettoaspdm/services/authentication.dart';
+import 'package:progettoaspdm/wrapper.dart';
+import 'package:provider/provider.dart';
 
 import 'home.dart';
 import 'login.dart';
@@ -11,15 +14,22 @@ class App extends StatelessWidget {
   // Definizione schermata iniziale
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Progetto ASPDM',
-      //home: SplashScreen(),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => SplashScreen(),
-        '/login': (context) => Login(),
-        '/register': (context) => Register(),
-      },
+    return MultiProvider(
+      providers: [
+        Provider<Authentication>(
+          create: (_) => Authentication(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Progetto ASPDM',
+        //home: SplashScreen(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => SplashScreen(),
+          '/login': (context) => Login(),
+          '/register': (context) => Register(),
+        },
+      ),
     );
   }
 }
@@ -46,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Home()));
+                builder: (context) => Wrapper()));
       },
     );
   }

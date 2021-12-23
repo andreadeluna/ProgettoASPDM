@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:progettoaspdm/services/authentication.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService = Provider.of<Authentication>(context);
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -12,8 +17,8 @@ class Home extends StatelessWidget {
           Center(
             child: ElevatedButton(
               child: const Text('Logout'),
-              onPressed: (){
-                Navigator.pushNamed(context, '/login');
+              onPressed: () async {
+                await authService.signOut();
               },
             ),
           )

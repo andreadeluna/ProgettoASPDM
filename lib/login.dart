@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:progettoaspdm/services/authentication.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
 
@@ -7,6 +9,8 @@ class Login extends StatelessWidget {
 
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+
+    final authService = Provider.of<Authentication>(context);
 
     return Scaffold(
       body: Column(
@@ -31,7 +35,11 @@ class Login extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed: (){},
+            onPressed: (){
+              authService.signInWithEmailAndPassword(
+                  emailController.text,
+                  passwordController.text);
+            },
             child: const Text('Login'),
           ),
           ElevatedButton(
