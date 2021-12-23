@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "570175095212",
+    "project_id": "letsmeet-67ecf",
+    "storage_bucket": "letsmeet-67ecf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570175095212:android:93a28804cf8de2684f3a09",
+        "android_client_info": {
+          "package_name": "com.andreadeluna.progettoaspdm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570175095212-bp3nq9dvgbus3l8dqbf7978iukji75er.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyqpo7Mu2ynIS-CmnTzCGkGcM1Kx6hx3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570175095212-bp3nq9dvgbus3l8dqbf7978iukji75er.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "570175095212-alc3pu9jq10df5npsamrad9nnqdp065j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.andreadeluna.progettoaspdm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
