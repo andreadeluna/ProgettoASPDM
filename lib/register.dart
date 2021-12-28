@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:progettoaspdm/login.dart';
+import 'package:progettoaspdm/initial_page.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
 
@@ -30,16 +30,19 @@ class Register extends StatelessWidget {
                   validator: validateEmail,
                   decoration: const InputDecoration(
                     labelText: "Email",
+                    icon: Icon(Icons.mail),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  obscureText: true,
                   controller: passwordController,
                   validator: validatePassword,
                   decoration: const InputDecoration(
                     labelText: "Password",
+                    icon: Icon(Icons.lock),
                   ),
                 ),
               ),
@@ -59,7 +62,7 @@ class Register extends StatelessWidget {
                     // }
                   }
                 },
-                child: const Text('Register'),
+                child: const Text('Registrati'),
               ),
             ],
           ),

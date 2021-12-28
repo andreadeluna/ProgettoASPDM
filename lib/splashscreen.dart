@@ -6,7 +6,7 @@ import 'package:progettoaspdm/wrapper.dart';
 import 'package:provider/provider.dart';
 
 import 'home.dart';
-import 'login.dart';
+import 'initial_page.dart';
 
 // Schermata iniziale: visualizzazione splash screen
 class App extends StatelessWidget {
@@ -26,7 +26,7 @@ class App extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),
-          '/login': (context) => Login(),
+          '/login': (context) => InitialPage(),
           '/register': (context) => Register(),
         },
       ),
