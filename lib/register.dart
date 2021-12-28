@@ -1,28 +1,57 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:progettoaspdm/initial_page.dart';
+import 'package:progettoaspdm/net/firebase.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
+
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  late String id;
+
+  final db = FirebaseFirestore.instance;
+
+  final _formKey = GlobalKey<FormState>();
+
+  late String name;
+
+  String? valore;
+
+  final items = ["User", "Admin"];
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
     final authService = Provider.of<Authentication>(context);
 
-    final GlobalKey<FormState> _key = GlobalKey<FormState>();
-
-    String errorMessage = '';
-
     return Scaffold(
       body: Form(
-        key: _key,
+        key: _formKey,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: nameController,
+                  validator: validateNome,
+                  decoration: const InputDecoration(
+                    labelText: "Nome",
+                    icon: Icon(Icons.mail),
+                  ),
+                  onSaved: (value) => name = value!,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -32,6 +61,7 @@ class Register extends StatelessWidget {
                     labelText: "Email",
                     icon: Icon(Icons.mail),
                   ),
+                  onSaved: (value) => name = value!,
                 ),
               ),
               Padding(
@@ -46,16 +76,41 @@ class Register extends StatelessWidget {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButton <String>(
+                  items: items.map(buildMenuItem).toList(),
+                  hint: Text("Tipo utente"),
+                  value: valore,
+                  onChanged: (valore) => setState(() {
+                    this.valore = valore;
+                  }),
+                ),
+              ),
               // Center(
               //   child: Text(errorMessage),
               // ),
               ElevatedButton(
                 onPressed: () async {
-                  if (_key.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     // try{
-                      await authService.createUserWithEmailAndPassword(
+
+                    _formKey.currentState!.save();
+                    DocumentReference ref = await db.collection('CRUD').add({'email': '${emailController.text}'});
+                    await db.collection('CRUD').doc(ref.id).update({'name': '${nameController.text}'});
+                    await db.collection('CRUD').doc(ref.id).update({'utente': '${valore}'});
+
+                    await authService.createUserWithEmailAndPassword(
                           emailController.text, passwordController.text);
-                      Navigator.pop(context);
+                    debugPrint('Registrazione effettuata');
+
+                    setState(() {
+                      id = ref.id;
+                      debugPrint(ref.id);
+                      debugPrint('Campo database creato');
+                    });
+
+                    //Navigator.pop(context);
                       // errorMessage = '';
                     // } on FirebaseAuthException catch (error){
                     //   errorMessage = error.message!;
@@ -70,6 +125,38 @@ class Register extends StatelessWidget {
       ),
     );
   }
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+    value: item,
+    child: Text(
+      item,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+    ),
+  );
+
+  /*void createData() async {
+    if(_formKey.currentState!.validate()){
+      _formKey.currentState!.save();
+      DocumentReference ref = await db.collection('CRUD').add({'name': '$name'});
+      setState(() {
+        id = ref.id;
+        print(ref.id);
+        debugPrint('Campo database creato');
+      });
+    }
+  }*/
+}
+
+
+String? validateNome(String? formNome){
+  if(formNome == null || formNome.isEmpty){
+    return "Il nome è richiesto";
+  }
+
+  return null;
 }
 
 String? validateEmail(String? formEmail){
@@ -103,3 +190,6 @@ String? validatePassword(String? formPassword) {
 
   return null;
 }
+
+
+

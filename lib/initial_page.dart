@@ -19,8 +19,6 @@ class _InitialPageState extends State<InitialPage> {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
-    final authService = Provider.of<Authentication>(context);
-
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
