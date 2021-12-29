@@ -15,6 +15,9 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text('Profilo'),
+          ),
+          ListTile(
+            title: Text('Logout'),
           )
         ],
       ),

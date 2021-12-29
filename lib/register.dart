@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:progettoaspdm/initial_page.dart';
 import 'package:progettoaspdm/net/firebase.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +41,17 @@ class _RegisterState extends State<Register> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
+                child: DropdownButton <String>(
+                  items: items.map(buildMenuItem).toList(),
+                  hint: Text("Tipo utente"),
+                  value: valore,
+                  onChanged: (valore) => setState(() {
+                    this.valore = valore;
+                  }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: nameController,
                   validator: validateNome,
@@ -76,17 +86,6 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButton <String>(
-                  items: items.map(buildMenuItem).toList(),
-                  hint: Text("Tipo utente"),
-                  value: valore,
-                  onChanged: (valore) => setState(() {
-                    this.valore = valore;
-                  }),
-                ),
-              ),
               // Center(
               //   child: Text(errorMessage),
               // ),
@@ -110,6 +109,10 @@ class _RegisterState extends State<Register> {
                       debugPrint('Campo database creato');
                     });
 
+                    if(valore == "Admin"){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FirebaseProva()));
+                    }
+
                     //Navigator.pop(context);
                       // errorMessage = '';
                     // } on FirebaseAuthException catch (error){
@@ -130,24 +133,12 @@ class _RegisterState extends State<Register> {
     value: item,
     child: Text(
       item,
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 20,
       ),
     ),
   );
-
-  /*void createData() async {
-    if(_formKey.currentState!.validate()){
-      _formKey.currentState!.save();
-      DocumentReference ref = await db.collection('CRUD').add({'name': '$name'});
-      setState(() {
-        id = ref.id;
-        print(ref.id);
-        debugPrint('Campo database creato');
-      });
-    }
-  }*/
 }
 
 

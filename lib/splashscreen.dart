@@ -29,6 +29,7 @@ class App extends StatelessWidget {
           '/': (context) => SplashScreen(),
           '/login': (context) => InitialPage(),
           '/register': (context) => Register(),
+          '/database': (context) => FirebaseProva(),
         },
       ),
     );
