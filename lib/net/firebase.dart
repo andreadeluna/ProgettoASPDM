@@ -47,11 +47,11 @@ class _FirebaseProvaState extends State<FirebaseProva> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FlatButton(
+                /*FlatButton(
                   onPressed: () => updateData(doc),
                   child: Text('Update'),
                   color: Colors.green,
-                ),
+                ),*/
                 FlatButton(
                   onPressed: () => deleteData(doc),
                   child: Text('Delete'),

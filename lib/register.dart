@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progettoaspdm/net/firebase.dart';
+import 'package:progettoaspdm/pannello_admin.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
 
@@ -110,7 +111,7 @@ class _RegisterState extends State<Register> {
                     });
 
                     if(valore == "Admin"){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FirebaseProva()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PannelloAdmin()));
                     }
 
                     //Navigator.pop(context);

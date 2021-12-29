@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:progettoaspdm/net/firebase.dart';
+import 'package:progettoaspdm/pannello_admin.dart';
 import 'package:progettoaspdm/register.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:progettoaspdm/wrapper.dart';
@@ -29,7 +30,7 @@ class App extends StatelessWidget {
           '/': (context) => SplashScreen(),
           '/login': (context) => InitialPage(),
           '/register': (context) => Register(),
-          '/database': (context) => FirebaseProva(),
+          '/database': (context) => PannelloAdmin(),
         },
       ),
     );
