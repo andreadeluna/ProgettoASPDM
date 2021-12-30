@@ -7,7 +7,6 @@ import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
 
 class Register extends StatefulWidget {
-
   @override
   State<Register> createState() => _RegisterState();
 }
@@ -42,7 +41,7 @@ class _RegisterState extends State<Register> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: DropdownButton <String>(
+                child: DropdownButton<String>(
                   items: items.map(buildMenuItem).toList(),
                   hint: Text("Tipo utente"),
                   value: valore,
@@ -96,12 +95,18 @@ class _RegisterState extends State<Register> {
                     // try{
 
                     _formKey.currentState!.save();
-                    DocumentReference ref = await db.collection('CRUD').add({'email': '${emailController.text}'});
-                    await db.collection('CRUD').doc(ref.id).update({'name': '${nameController.text}'});
-                    await db.collection('CRUD').doc(ref.id).update({'utente': '${valore}'});
+                    DocumentReference ref = await db
+                        .collection('CRUD')
+                        .add(
+                      {
+                        'email': emailController.text,
+                        'name': nameController.text,
+                        'utente': valore,
+                      },
+                    );
 
                     await authService.createUserWithEmailAndPassword(
-                          emailController.text, passwordController.text);
+                        emailController.text, passwordController.text);
                     debugPrint('Registrazione effettuata');
 
                     setState(() {
@@ -110,12 +115,15 @@ class _RegisterState extends State<Register> {
                       debugPrint('Campo database creato');
                     });
 
-                    if(valore == "Admin"){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PannelloAdmin()));
+                    if (valore == "Admin") {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PannelloAdmin()));
                     }
 
                     //Navigator.pop(context);
-                      // errorMessage = '';
+                    // errorMessage = '';
                     // } on FirebaseAuthException catch (error){
                     //   errorMessage = error.message!;
                     // }
@@ -131,41 +139,39 @@ class _RegisterState extends State<Register> {
   }
 
   DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-    value: item,
-    child: Text(
-      item,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-      ),
-    ),
-  );
+        value: item,
+        child: Text(
+          item,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      );
 }
 
-
-String? validateNome(String? formNome){
-  if(formNome == null || formNome.isEmpty){
+String? validateNome(String? formNome) {
+  if (formNome == null || formNome.isEmpty) {
     return "Il nome è richiesto";
   }
 
   return null;
 }
 
-String? validateEmail(String? formEmail){
-  if(formEmail == null || formEmail.isEmpty){
+String? validateEmail(String? formEmail) {
+  if (formEmail == null || formEmail.isEmpty) {
     return "L'indirizzo e-mail è richiesto";
   }
 
   String pattern = r'\w+@\w+\.\w+';
   RegExp regex = RegExp(pattern);
 
-  if(!regex.hasMatch(formEmail)){
+  if (!regex.hasMatch(formEmail)) {
     return "Formato indirizzo e-mail non valido";
   }
 
   return null;
 }
-
 
 String? validatePassword(String? formPassword) {
   if (formPassword == null || formPassword.isEmpty) {
@@ -182,6 +188,3 @@ String? validatePassword(String? formPassword) {
 
   return null;
 }
-
-
-
