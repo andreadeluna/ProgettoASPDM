@@ -115,6 +115,9 @@ class _HomeState extends State<Home> {
     await db.collection('Eventi').doc(doc.id)
         .update({'iscritto': FieldValue.arrayUnion([{'bbb': 'aaa', 'ciaociao': 'prova2'}])});
 
+    await db.collection('CRUD').doc(doc.id)
+        .update({'provautente': FieldValue.arrayUnion([{'evento': 'aaa'}])});
+
   }
 
 }
