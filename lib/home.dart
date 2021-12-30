@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:progettoaspdm/AppDrawer.dart';
@@ -14,6 +15,8 @@ class _HomeState extends State<Home> {
 
   final _formKey = GlobalKey<FormState>();
   final db = FirebaseFirestore.instance;
+
+  GetOptions? documentId;
 
 
   Card buildItem(DocumentSnapshot doc) {
@@ -95,14 +98,6 @@ class _HomeState extends State<Home> {
                     }
                   },
                 ),
-                Center(
-                  child: ElevatedButton(
-                    child: const Text('Logout'),
-                    onPressed: () async {
-                      await authService.signOut();
-                    },
-                  ),
-                )
               ],
             ),
           ),
@@ -113,11 +108,22 @@ class _HomeState extends State<Home> {
 
   void updateData(DocumentSnapshot doc) async {
     await db.collection('Eventi').doc(doc.id)
-        .update({'iscritto': FieldValue.arrayUnion([{'bbb': 'aaa', 'ciaociao': 'prova2'}])});
+        .update({'iscritto': FieldValue.arrayUnion([{'nome': '${doc.get('name')}', 'ciaociao': 'prova3'}])});
 
-    await db.collection('CRUD').doc(doc.id)
-        .update({'provautente': FieldValue.arrayUnion([{'evento': 'aaa'}])});
+    QuerySnapshot querySnap = await FirebaseFirestore.instance.collection('CRUD').where('email', isEqualTo: 'aa@bb.com').get();
 
+    QueryDocumentSnapshot documentSnap = querySnap.docs[0];  // Assumption: the query returns only one document, THE doc you are looking for.
+
+    DocumentReference docRef = documentSnap.reference;
+
+    await docRef.update({'provautente': FieldValue.arrayUnion([{'evento': '${doc.get('name')}'}])});
+
+
+    debugPrint('DOCUMENTO: ${doc}');
+
+    debugPrint('DOCUMENTO ID: ${doc.id}');
+
+    debugPrint('DOCUMENTO UTENTE: ${docRef.id}');
   }
 
 }
