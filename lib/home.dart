@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:progettoaspdm/AppDrawer.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
+import 'package:random_string/random_string.dart';
 
 class Home extends StatefulWidget {
 
@@ -106,9 +107,9 @@ class _HomeState extends State<Home> {
     );
   }
 
+
+
   void updateData(DocumentSnapshot doc) async {
-    await db.collection('Eventi').doc(doc.id)
-        .update({'iscritto': FieldValue.arrayUnion([{'nome': '${doc.get('name')}', 'ciaociao': 'prova3'}])});
 
     QuerySnapshot querySnap = await FirebaseFirestore.instance.collection('CRUD').where('email', isEqualTo: 'aa@bb.com').get();
 
@@ -116,14 +117,16 @@ class _HomeState extends State<Home> {
 
     DocumentReference docRef = documentSnap.reference;
 
-    await docRef.update({'provautente': FieldValue.arrayUnion([{'evento': '${doc.get('name')}'}])});
+    String codice;
+
+    codice = randomAlphaNumeric(8);
 
 
-    debugPrint('DOCUMENTO: ${doc}');
+    await db.collection('Eventi').doc(doc.id)
+        .update({'iscritti': FieldValue.arrayUnion([{'nome': '${doc.get('name')}', 'codice': '${codice}'}])});
 
-    debugPrint('DOCUMENTO ID: ${doc.id}');
+    await docRef.update({'eventi': FieldValue.arrayUnion([{'evento': '${doc.get('name')}', 'codice': '${codice}'}])});
 
-    debugPrint('DOCUMENTO UTENTE: ${docRef.id}');
   }
 
 }

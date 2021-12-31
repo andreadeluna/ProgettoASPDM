@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:progettoaspdm/home.dart';
+import 'package:progettoaspdm/pannello_admin.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
 
@@ -9,10 +13,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  final db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
 
     int currentIndex = 0;
+
+    String gestisci;
 
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
@@ -51,6 +60,36 @@ class _LoginState extends State<Login> {
                   authService.signInWithEmailAndPassword(
                       emailController.text,
                       passwordController.text);
+
+                  FirebaseFirestore.instance.collection('CRUD')
+                  .where('email', isEqualTo: '${emailController.text}')
+                  .get()
+                  .then((docs) {
+
+                    if(docs.docs[0].exists){
+                      if(docs.docs[0].get('utente') == 'Admin'){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PannelloAdmin()));
+                      }
+                      else{
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Home()));
+                      }
+                    }
+
+                  }
+
+
+                  );
+
+
+
+                  // gestisci = gestisciAccesso();
+
                 },
                 child: const Text('Login'),
               ),
