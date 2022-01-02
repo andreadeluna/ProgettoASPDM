@@ -8,16 +8,23 @@ import 'package:random_string/random_string.dart';
 
 class Home extends StatefulWidget {
 
+  String email;
+
+  Home(this.email);
+
   @override
-  State<Home> createState() => _HomeState();
+  State<Home> createState() => _HomeState(email);
 }
 
 class _HomeState extends State<Home> {
 
+  String email;
   final _formKey = GlobalKey<FormState>();
   final db = FirebaseFirestore.instance;
 
   GetOptions? documentId;
+
+  _HomeState(this.email);
 
 
   Card buildItem(DocumentSnapshot doc) {
@@ -76,7 +83,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('Home'),
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(email),
       body: ListView(
           padding: EdgeInsets.all(8),
           children: <Widget>[

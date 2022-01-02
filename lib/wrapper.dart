@@ -15,7 +15,7 @@ class Wrapper extends StatelessWidget {
       builder: (_, AsyncSnapshot<User?> snapshot) {
         if(snapshot.connectionState == ConnectionState.active){
           final User? user = snapshot.data;
-          return user == null ? InitialPage() : Home();
+          return user == null ? InitialPage() : Home(authService.user.toString());
         }
         else {
           return const Scaffold(
