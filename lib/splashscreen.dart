@@ -56,10 +56,10 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 3),
           () {
         // Apertura schermata di inserimento dati
-        Navigator.push(
+        /*Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Wrapper()));
+                builder: (context) => Wrapper()));*/
       },
     );
   }
@@ -71,8 +71,18 @@ class _SplashScreenState extends State<SplashScreen> {
     return WillPopScope(
       onWillPop: () async => false,
       child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+            inputDecorationTheme: const InputDecorationTheme(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.purple,
+                )
+              )
+            )
+        ),
         home: Scaffold(
-          backgroundColor: Colors.blue[800],
+          backgroundColor: Colors.purple[700],
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

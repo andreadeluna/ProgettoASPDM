@@ -28,6 +28,16 @@ class _LoginState extends State<Login> {
     return WillPopScope(
       onWillPop: () async => false,
       child: MaterialApp(
+        theme: ThemeData(
+            primarySwatch: Colors.deepPurple,
+            inputDecorationTheme: const InputDecorationTheme(
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.purple,
+                    )
+                )
+            )
+        ),
         home: Scaffold(
           resizeToAvoidBottomInset: false,
           body: Container(
@@ -37,9 +47,9 @@ class _LoginState extends State<Login> {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 colors: [
-                  Colors.blue[800]!,
-                  Colors.blue[700]!,
-                  Colors.blue[300]!,
+                  Colors.purple[800]!,
+                  Colors.purple[700]!,
+                  Colors.purple[300]!,
                 ],
               ),
             ),
@@ -85,7 +95,7 @@ class _LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.lightBlue[100]!,
+                                    color: Colors.purple[100]!,
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   )
@@ -114,6 +124,7 @@ class _LoginState extends State<Login> {
                                                 controller: emailController,
                                                 decoration: const InputDecoration(
                                                   labelText: "Email",
+                                                  fillColor: Colors.red,
                                                   icon: Icon(Icons.mail),
                                                 ),
                                               ),
@@ -138,7 +149,7 @@ class _LoginState extends State<Login> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 50),
+                            const SizedBox(height: 100),
                             GestureDetector(
                               onTap: () {
                                 authService
@@ -179,7 +190,7 @@ class _LoginState extends State<Login> {
                                 margin: const EdgeInsets.symmetric(horizontal: 50),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50),
-                                    color: Colors.lightBlue[900]),
+                                    color: Colors.purple[900]),
                                 child: const Center(
                                   child: Text(
                                     "Login",

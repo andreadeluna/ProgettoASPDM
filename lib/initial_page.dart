@@ -21,7 +21,11 @@ class _InitialPageState extends State<InitialPage> {
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.lightBlue[40],
+        backgroundColor: Colors.purple[50],
+        type: BottomNavigationBarType.fixed,
+        unselectedItemColor: Colors.purple[900],
+        selectedItemColor: Colors.purple,
+        selectedFontSize: 20,
         currentIndex: currentIndex,
         onTap: (index) {
           //debugPrint("Tab $index selected");
