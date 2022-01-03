@@ -21,6 +21,7 @@ class _InitialPageState extends State<InitialPage> {
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.lightBlue[40],
         currentIndex: currentIndex,
         onTap: (index) {
           //debugPrint("Tab $index selected");
@@ -30,9 +31,9 @@ class _InitialPageState extends State<InitialPage> {
         },
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.login), label: "Login"),
+              icon: Icon(Icons.login, size: 30), label: "Login"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person), label: "Registrazione"),
+              icon: Icon(Icons.person, size: 30), label: "Registrazione"),
         ],
       ),
       body: Builder(

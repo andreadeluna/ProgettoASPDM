@@ -57,7 +57,13 @@ class _ListaEventiState extends State<ListaEventi> {
                     debugPrint('$textWidgetList');
 
                     return Column(
-                      children: textWidgetList,
+                      children: [
+                        Container(
+                          child: Column(
+                            children: textWidgetList,
+                          ),
+                        )
+                      ]
                     );
 
                   }
@@ -69,7 +75,7 @@ class _ListaEventiState extends State<ListaEventi> {
             ),
             //SizedBox(height: 12),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              //mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 /*FlatButton(
                   onPressed: () => updateData(doc),
