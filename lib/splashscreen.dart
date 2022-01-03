@@ -56,10 +56,10 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 3),
           () {
         // Apertura schermata di inserimento dati
-        /*Navigator.push(
+        Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Wrapper()));*/
+                builder: (context) => Wrapper()));
       },
     );
   }

@@ -20,7 +20,7 @@ class _RegisterState extends State<Register> {
 
   late String name;
 
-  String? valore;
+  String? tipoUtente = 'User';
 
   final items = ["User", "Admin"];
 
@@ -32,106 +32,232 @@ class _RegisterState extends State<Register> {
 
     final authService = Provider.of<Authentication>(context);
 
-    return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButton<String>(
-                  items: items.map(buildMenuItem).toList(),
-                  hint: Text("Tipo utente"),
-                  value: valore,
-                  onChanged: (valore) => setState(() {
-                    this.valore = valore;
-                  }),
-                ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: MaterialApp(
+        theme: ThemeData(
+            primarySwatch: Colors.deepPurple,
+            inputDecorationTheme: const InputDecorationTheme(
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.purple,
+                    )
+                )
+            )
+        ),
+        home: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            padding: EdgeInsets.symmetric(vertical: 0),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                colors: [
+                  Colors.purple[800]!,
+                  Colors.purple[700]!,
+                  Colors.purple[300]!,
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: nameController,
-                  validator: validateNome,
-                  decoration: const InputDecoration(
-                    labelText: "Nome",
-                    icon: Icon(Icons.mail),
-                  ),
-                  onSaved: (value) => name = value!,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: emailController,
-                  validator: validateEmail,
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                    icon: Icon(Icons.mail),
-                  ),
-                  onSaved: (value) => name = value!,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  obscureText: true,
-                  controller: passwordController,
-                  validator: validatePassword,
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                    icon: Icon(Icons.lock),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      Text(
+                        "Registrazione",
+                        style: TextStyle(color: Colors.white, fontSize: 55),
+                      )
+                    ],
                   ),
                 ),
-              ),
-              // Center(
-              //   child: Text(errorMessage),
-              // ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    // try{
+                const SizedBox(height: 20),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(60),
+                        topRight: Radius.circular(60),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 5),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.purple[100]!,
+                                    blurRadius: 20,
+                                    offset: const Offset(0, 10),
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom:
+                                        BorderSide(color: Colors.grey[200]!),
+                                      ),
+                                    ),
+                                    child: Form(
+                                      key: _formKey,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Icon(Icons.settings, color: Colors.grey[500]),
+                                                  Text('Tipo utente', style: TextStyle(fontSize: 20, color: Colors.grey[700])),
+                                                  DropdownButton<String>(
+                                                    items: items.map(buildMenuItem).toList(),
+                                                    hint: const Text("User", style: TextStyle(fontSize: 20)),
+                                                    value: tipoUtente,
+                                                    onChanged: (valore) => setState(() {
+                                                      this.tipoUtente = valore;
+                                                    }),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                style: const TextStyle(fontSize: 20),
+                                                controller: nameController,
+                                                validator: validateNome,
+                                                decoration: const InputDecoration(
+                                                  labelText: "Nome",
+                                                  icon: Icon(Icons.person),
+                                                ),
+                                                onSaved: (value) => name = value!,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                style: const TextStyle(fontSize: 20),
+                                                controller: emailController,
+                                                validator: validateEmail,
+                                                decoration: const InputDecoration(
+                                                  labelText: "Email",
+                                                  icon: Icon(Icons.mail),
+                                                ),
+                                                onSaved: (value) => name = value!,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                style: const TextStyle(fontSize: 20),
+                                                obscureText: true,
+                                                controller: passwordController,
+                                                validator: validatePassword,
+                                                decoration: const InputDecoration(
+                                                  labelText: "Password",
+                                                  icon: Icon(Icons.lock),
+                                                ),
+                                              ),
+                                            ),
+                                            // Center(
+                                            //   child: Text(errorMessage),
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 50),
+                            GestureDetector(
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  // try{
 
-                    _formKey.currentState!.save();
-                    DocumentReference ref = await db
-                        .collection('CRUD')
-                        .add(
-                      {
-                        'email': emailController.text,
-                        'name': nameController.text,
-                        'utente': valore,
-                      },
-                    );
+                                  _formKey.currentState!.save();
+                                  DocumentReference ref = await db
+                                      .collection('CRUD')
+                                      .add(
+                                    {
+                                      'email': emailController.text,
+                                      'name': nameController.text,
+                                      'utente': tipoUtente,
+                                    },
+                                  );
 
-                    await authService.createUserWithEmailAndPassword(
-                        emailController.text, passwordController.text);
-                    debugPrint('Registrazione effettuata');
+                                  await authService.createUserWithEmailAndPassword(
+                                      emailController.text, passwordController.text);
+                                  debugPrint('Registrazione effettuata');
 
-                    setState(() {
-                      id = ref.id;
-                      debugPrint(ref.id);
-                      debugPrint('Campo database creato');
-                    });
+                                  setState(() {
+                                    id = ref.id;
+                                    debugPrint(ref.id);
+                                    debugPrint('Campo database creato');
+                                  });
 
-                    if (valore == "Admin") {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PannelloAdmin()));
-                    }
+                                  if (tipoUtente == "Admin") {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PannelloAdmin()));
+                                  }
 
-                    //Navigator.pop(context);
-                    // errorMessage = '';
-                    // } on FirebaseAuthException catch (error){
-                    //   errorMessage = error.message!;
-                    // }
-                  }
-                },
-                child: const Text('Registrati'),
-              ),
-            ],
+                                  //Navigator.pop(context);
+                                  // errorMessage = '';
+                                  // } on FirebaseAuthException catch (error){
+                                  //   errorMessage = error.message!;
+                                  // }
+                                }
+                              },
+                              child: Container(
+                                height: 50,
+                                margin: const EdgeInsets.symmetric(horizontal: 50),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: Colors.purple[900]),
+                                child: const Center(
+                                  child: Text(
+                                    "Registrati",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

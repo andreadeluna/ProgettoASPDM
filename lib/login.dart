@@ -16,9 +16,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
-
-    String gestisci;
 
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
@@ -124,7 +121,6 @@ class _LoginState extends State<Login> {
                                                 controller: emailController,
                                                 decoration: const InputDecoration(
                                                   labelText: "Email",
-                                                  fillColor: Colors.red,
                                                   icon: Icon(Icons.mail),
                                                 ),
                                               ),
