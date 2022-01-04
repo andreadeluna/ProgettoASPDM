@@ -35,17 +35,17 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget> [
             Text(
-              "Nome: ${doc.get('name')}",
+              "Nome: ${doc.get('NomeEvento')}",
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 12),
             Text(
-              "Descrizione: ${doc.get('descrizione')}",
+              "Descrizione: ${doc.get('Descrizione')}",
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 12),
             Text(
-              "Orario: ${doc.get('orario')}",
+              "Orario: ${doc.get('Orario')}",
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 12),
@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
 
   void updateData(DocumentSnapshot doc) async {
 
-    QuerySnapshot querySnap = await FirebaseFirestore.instance.collection('CRUD').where('email', isEqualTo: 'aa@bb.com').get();
+    QuerySnapshot querySnap = await FirebaseFirestore.instance.collection('Utenti').where('Email', isEqualTo: 'aa@bb.com').get();
 
     QueryDocumentSnapshot documentSnap = querySnap.docs[0];  // Assumption: the query returns only one document, THE doc you are looking for.
 
@@ -130,9 +130,9 @@ class _HomeState extends State<Home> {
 
 
     await db.collection('Eventi').doc(doc.id)
-        .update({'iscritti': FieldValue.arrayUnion([{'nome': '${doc.get('name')}', 'codice': '${codice}'}])});
+        .update({'Iscritti': FieldValue.arrayUnion([{'Nome': '${doc.get('NomeEvento')}', 'Codice': '${codice}'}])});
 
-    await docRef.update({'eventi': FieldValue.arrayUnion([{'evento': '${doc.get('name')}', 'codice': '${codice}'}])});
+    await docRef.update({'Eventi': FieldValue.arrayUnion([{'Evento': '${doc.get('NomeEvento')}', 'Codice': '${codice}'}])});
 
   }
 

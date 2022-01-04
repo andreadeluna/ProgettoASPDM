@@ -200,12 +200,12 @@ class _RegisterState extends State<Register> {
 
                                   _formKey.currentState!.save();
                                   DocumentReference ref = await db
-                                      .collection('CRUD')
+                                      .collection('Utenti')
                                       .add(
                                     {
-                                      'email': emailController.text,
-                                      'name': nameController.text,
-                                      'utente': tipoUtente,
+                                      'Email': emailController.text,
+                                      'Nome': nameController.text,
+                                      'TipoUtente': tipoUtente,
                                     },
                                   );
 

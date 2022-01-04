@@ -154,15 +154,15 @@ class _LoginState extends State<Login> {
                                     passwordController.text);
 
                                 FirebaseFirestore.instance
-                                    .collection('CRUD')
-                                    .where('email',
+                                    .collection('Utenti')
+                                    .where('Email',
                                     isEqualTo:
                                     emailController.text)
                                     .get()
                                     .then((docs) {
                                   if (docs.docs[0].exists) {
                                     if (docs.docs[0]
-                                        .get('utente') ==
+                                        .get('TipoUtente') ==
                                         'Admin') {
                                       Navigator.push(
                                           context,

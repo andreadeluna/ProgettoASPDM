@@ -22,17 +22,17 @@ class _PannelloAdminState extends State<PannelloAdmin> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget> [
             Text(
-              "Nome: ${doc.get('name')}",
+              "Nome: ${doc.get('NomeEvento')}",
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 12),
             Text(
-              "Descrizione: ${doc.get('descrizione')}",
+              "Descrizione: ${doc.get('Descrizione')}",
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 12),
             Text(
-              "Orario: ${doc.get('orario')}",
+              "Orario: ${doc.get('Orario')}",
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 12),
@@ -152,9 +152,9 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                 onPressed: () async {
                   if(_formKey.currentState!.validate()){
                     _formKey.currentState!.save();
-                    DocumentReference ref = await db.collection('Eventi').add({'name': '${nameEventoController.text}'});
-                    await db.collection('Eventi').doc(ref.id).update({'orario': '${orarioController.text}'});
-                    await db.collection('Eventi').doc(ref.id).update({'descrizione': '${descrizioneController.text}'});
+                    DocumentReference ref = await db.collection('Eventi').add({'NomeEvento': '${nameEventoController.text}'});
+                    await db.collection('Eventi').doc(ref.id).update({'Orario': '${orarioController.text}'});
+                    await db.collection('Eventi').doc(ref.id).update({'Descrizione': '${descrizioneController.text}'});
 
                     setState(() {
                       id = ref.id;
@@ -194,7 +194,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
   void createData() async {
     if(_formKey.currentState!.validate()){
       _formKey.currentState!.save();
-      DocumentReference ref = await db.collection('Eventi').add({'name': '$name'});
+      DocumentReference ref = await db.collection('Eventi').add({'NomeEvento': '$name'});
       setState(() {
         id = ref.id;
         print(ref.id);
@@ -210,7 +210,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
 
 
   void updateData(DocumentSnapshot doc) async {
-    await db.collection('CRUD').doc(doc.id).update({'todo': 'please'});
+    await db.collection('Utenti').doc(doc.id).update({'todo': 'please'});
   }
 
   void deleteData(DocumentSnapshot doc) async {
