@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/AppDrawer.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +61,15 @@ class _HomeState extends State<Home> {
                 FlatButton(
                   onPressed: () => {
                     updateData(doc),
+                  Fluttertoast.showToast(
+                  msg: "Iscrizione effettuata",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.blueGrey,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                  )
                   },
                   child: Text('Iscriviti'),
                   color: Colors.green,

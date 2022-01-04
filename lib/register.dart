@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:progettoaspdm/net/firebase.dart';
 import 'package:progettoaspdm/pannello_admin.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
@@ -309,7 +307,9 @@ String? validatePassword(String? formPassword) {
   RegExp regex = RegExp(pattern);
 
   if (!regex.hasMatch(formPassword)) {
-    return "La password deve essere di almeno 8 caratteri e deve contenere una lettera maiuscola, un numero e un simbolo";
+    return '''La password deve essere di almeno 8 caratteri\n 
+              e deve contenere una lettera maiuscola, \n
+              un numero e un simbolo''';
   }
 
   return null;
