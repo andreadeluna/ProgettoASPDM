@@ -16,37 +16,49 @@ class AppDrawer extends StatelessWidget {
     final authService = Provider.of<Authentication>(context);
 
     return Drawer(
-      child: ListView(
-        children: [
-          /*DrawerHeader(
-            child: Text('Menu'),
-          ),*/
-          ListTile(
-            title: Text('Eventi'),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ListaEventi()));
-            },
-          ),
-          ListTile(
-            title: Text('Profilo'),
-            onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Profilo(email)));
-            },
-          ),
-          ListTile(
-            title: Text('Logout'),
-            onTap: () async {
-              await authService.signOut();
-            },
-          )
-        ],
-      ),
-    );
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.purple[700],
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey[300],
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Icon(Icons.person, size: 100, color: Colors.white),
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('Iscrizioni', style: TextStyle(fontSize: 20)),
+              onTap: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ListaEventi()));
+              },
+            ),
+            ListTile(
+              title: Text('Profilo', style: TextStyle(fontSize: 20)),
+              onTap: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Profilo(email)));
+              },
+            ),
+            ListTile(
+              title: Text('Logout', style: TextStyle(fontSize: 20)),
+              onTap: () async {
+                await authService.signOut();
+              },
+            )
+          ],
+        ),
+      );
   }
 }

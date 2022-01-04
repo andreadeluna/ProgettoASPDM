@@ -27,14 +27,14 @@ class _ListaEventiState extends State<ListaEventi> {
             Builder(
                 builder: (context) {
 
-                  if(List.from(doc['eventi']).length > 0){
+                  if(List.from(doc['Eventi']).length > 0){
 
-                    debugPrint('NUMERO EVENTI ${List.from(doc['eventi']).length}');
+                    debugPrint('NUMERO EVENTI ${List.from(doc['Eventi']).length}');
 
-                    for(int i = 0; i < List.from(doc['eventi']).length; i++){
+                    for(int i = 0; i < List.from(doc['Eventi']).length; i++){
 
                       debugPrint('STAMPA EVENTO');
-                      debugPrint("Eventi: ${doc['eventi'][i]['evento'].toString()}");
+                      debugPrint("Eventi: ${doc['Eventi'][i]['Evento'].toString()}");
 
 
                       /*return Text(
@@ -46,7 +46,7 @@ class _ListaEventiState extends State<ListaEventi> {
                           Container(
                             margin: EdgeInsets.all(5.0),
                               child: Text(
-                                  "Evento: ${doc['eventi'][i]['evento']}\nCodice: ${doc['eventi'][i]['codice']}\n",
+                                  "Evento: ${doc['Eventi'][i]['Evento']}\nCodice: ${doc['Eventi'][i]['Codice']}\n",
                                 style: TextStyle(fontSize: 20),
                               ),
                           ),
@@ -101,7 +101,7 @@ class _ListaEventiState extends State<ListaEventi> {
         padding: EdgeInsets.all(8),
         children: <Widget>[
           StreamBuilder <QuerySnapshot> (
-            stream: db.collection('CRUD').where('email', isEqualTo: 'aa@bb.com').snapshots(),
+            stream: db.collection('Utenti').where('Email', isEqualTo: 'aa@bb.com').snapshots(),
             builder: (context, snapshot){
               if(snapshot.hasData){
                 return Column(
