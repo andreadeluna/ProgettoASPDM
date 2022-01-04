@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/AppDrawer.dart';
-import 'package:progettoaspdm/services/authentication.dart';
-import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
 class Home extends StatefulWidget {
@@ -20,7 +18,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   String email;
-  final _formKey = GlobalKey<FormState>();
   final db = FirebaseFirestore.instance;
 
   GetOptions? documentId;
@@ -30,53 +27,72 @@ class _HomeState extends State<Home> {
 
   Card buildItem(DocumentSnapshot doc) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: Padding(
-        padding: EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget> [
-            Text(
-              "Nome: ${doc.get('NomeEvento')}",
-              style: TextStyle(fontSize: 24),
+        padding: const EdgeInsets.all(0),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.purple[50],
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
             ),
-            SizedBox(height: 12),
-            Text(
-              "Descrizione: ${doc.get('Descrizione')}",
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 12),
-            Text(
-              "Orario: ${doc.get('Orario')}",
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                /*FlatButton(
-                  onPressed: () => updateData(doc),
-                  child: Text('Update'),
-                  color: Colors.green,
-                ),*/
-                FlatButton(
-                  onPressed: () => {
-                    updateData(doc),
-                  Fluttertoast.showToast(
-                  msg: "Iscrizione effettuata",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.blueGrey,
-                  textColor: Colors.white,
-                  fontSize: 16.0,
-                  )
-                  },
-                  child: Text('Iscriviti'),
-                  color: Colors.green,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget> [
+              Text(
+                "${doc.get('NomeEvento')}",
+                style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 12),
+              /*Text(
+                "Descrizione: ${doc.get('Descrizione')}",
+                style: TextStyle(fontSize: 24),
+              ),
+              SizedBox(height: 12),*/
+              Text(
+                "Orario: ${doc.get('Orario')}",
+                style: TextStyle(fontSize: 24),
+              ),
+              SizedBox(height: 12),
+              GestureDetector(
+                onTap: () => {
+                  updateData(doc),
+                Fluttertoast.showToast(
+                msg: "Iscrizione effettuata",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.blueGrey,
+                textColor: Colors.white,
+                fontSize: 16.0,
+                )
+                },
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.purple[900]),
+                  child: const Center(
+                    child: Text(
+                      "Iscriviti",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              ],
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -87,39 +103,87 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    final authService = Provider.of<Authentication>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      drawer: AppDrawer(email),
-      body: ListView(
-          padding: EdgeInsets.all(8),
-          children: <Widget>[
-            Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                StreamBuilder <QuerySnapshot> (
-                  stream: db.collection('Eventi').snapshots(),
-                  builder: (context, snapshot){
-                    if(snapshot.hasData){
-                      return Column(
-                        children:
-                        snapshot.data!.docs.map((doc) => buildItem(doc)).toList(),
-                      );
-                    }
-                    else {
-                      return SizedBox();
-                    }
-                  },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: MaterialApp(
+        home: Center(
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Eventi',
+                style: TextStyle(fontSize: 50, color: Colors.white)),
+              backgroundColor: Colors.purple[700],
+            ),
+            drawer: AppDrawer(email),
+            body: Container(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  colors: [
+                    Colors.purple[500]!,
+                    Colors.purple[400]!,
+                    Colors.purple[200]!,
+                  ],
                 ),
-              ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.blue[900]!,
+                            style: BorderStyle.solid,
+                            width: 2,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListView(
+                              padding: const EdgeInsets.all(8),
+                              children: <Widget>[
+                                Column(
+                                  //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    StreamBuilder <QuerySnapshot> (
+                                      stream: db.collection('Eventi').snapshots(),
+                                      builder: (context, snapshot){
+                                        if(snapshot.hasData){
+                                          return Column(
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children:
+                                            snapshot.data!.docs.map((doc) => buildItem(doc)).toList(),
+                                          );
+                                        }
+                                        else {
+                                          return SizedBox();
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                            ]
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ]
+        ),
       ),
     );
   }
