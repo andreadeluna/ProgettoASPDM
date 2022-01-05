@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:progettoaspdm/AppDrawer.dart';
+import 'package:progettoaspdm/AppDrawerUser.dart';
 import 'package:random_string/random_string.dart';
 
 class Home extends StatefulWidget {
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: Colors.blue[900]!,
+                            color: Colors.purple[900]!,
                             style: BorderStyle.solid,
                             width: 2,
                           ),

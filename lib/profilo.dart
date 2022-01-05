@@ -174,37 +174,6 @@ class _ProfiloState extends State<Profilo> {
       ),
     );
   }
-
-
-  void createData() async {
-    if(_formKey.currentState!.validate()){
-      _formKey.currentState!.save();
-      DocumentReference ref = await db.collection('CRUD').add({'name': '$name'});
-      setState(() {
-        id = ref.id;
-        print(ref.id);
-      });
-    }
-  }
-
-
-  void readData() async {
-    DocumentSnapshot snapshot = await db.collection('CRUD').doc(id).get();
-    print(snapshot.data());
-  }
-
-
-  void updateData(DocumentSnapshot doc) async {
-    await db.collection('CRUD').doc(doc.id).update({'todo': 'please'});
-  }
-
-  void deleteData(DocumentSnapshot doc) async {
-    await db.collection('CRUD').doc(doc.id).delete();
-    setState(() {
-      id = 'null';
-    });
-  }
-
 }
 
 
