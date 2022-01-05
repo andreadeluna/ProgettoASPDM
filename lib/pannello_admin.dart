@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/AppDrawerAdmin.dart';
+import 'package:progettoaspdm/lista_iscritti.dart';
 
 class PannelloAdmin extends StatefulWidget {
   @override
@@ -19,179 +20,187 @@ class _PannelloAdminState extends State<PannelloAdmin> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.purple[50],
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
+      child: GestureDetector(
+        onTap: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ListaIscritti()));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(0),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.purple[50],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Text(
-                "${doc.get('NomeEvento')}",
-                style:
-                    const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 12),
-              Column(
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Orario: ",
-                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${doc.get('Orario')}",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Giorno: ",
-                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${doc.get('Data')}",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  "${doc.get('NomeEvento')}",
+                  style:
+                      const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 12),
+                Column(
+                  //crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Orario: ",
+                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "${doc.get('Orario')}",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Giorno: ",
+                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "${doc.get('Data')}",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
 
-                ],
-              ),
-              SizedBox(height: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    "Descrizione: ",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${doc.get('Descrizione')}",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  GestureDetector(
-                    //onTap: () => deleteData(doc),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                backgroundColor: Colors.grey[50],
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                content: Stack(
-                                  overflow: Overflow.visible,
-                                  alignment: Alignment.topCenter,
-                                  children: [
-                                    Container(
-                                      height: 150,
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(10, 70, 10, 10),
-                                        child: Column(
-                                          children: const [
-                                            Text(
-                                              "Attenzione",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 23),
-                                            ),
-                                            SizedBox(height: 5),
-                                            Text(
-                                              "Vuoi eliminare l'evento?",
-                                              style: TextStyle(fontSize: 18),
-                                            ),
-                                          ],
+                  ],
+                ),
+                SizedBox(height: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      "Descrizione: ",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${doc.get('Descrizione')}",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    GestureDetector(
+                      //onTap: () => deleteData(doc),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  backgroundColor: Colors.grey[50],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  content: Stack(
+                                    overflow: Overflow.visible,
+                                    alignment: Alignment.topCenter,
+                                    children: [
+                                      Container(
+                                        height: 150,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(10, 70, 10, 10),
+                                          child: Column(
+                                            children: const [
+                                              Text(
+                                                "Attenzione",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 23),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                "Vuoi eliminare l'evento?",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
+                                      Positioned(
+                                        top: -60,
+                                        child: CircleAvatar(
+                                          backgroundColor: Colors.purple[700],
+                                          radius: 60,
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('No',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.purpleAccent)),
+                                      onPressed: () {
+                                        Navigator.pop(context, false);
+                                      },
                                     ),
-                                    Positioned(
-                                      top: -60,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.purple[700],
-                                        radius: 60,
-                                        child: Icon(
-                                          Icons.delete,
-                                          color: Colors.white,
-                                          size: 50,
-                                        ),
-                                      ),
-                                    )
+                                    TextButton(
+                                      child: const Text('Si',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.purpleAccent)),
+                                      onPressed: () {
+                                        deleteData(doc);
+                                        Navigator.pop(context, false);
+                                      },
+                                    ),
                                   ],
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('No',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.purpleAccent)),
-                                    onPressed: () {
-                                      Navigator.pop(context, false);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text('Si',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.purpleAccent)),
-                                    onPressed: () {
-                                      deleteData(doc);
-                                      Navigator.pop(context, false);
-                                    },
-                                  ),
-                                ],
-                              ));
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.purple[900]),
-                      child: const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Text(
-                            "Elimina",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                                ));
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.purple[900]),
+                        child: const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Text(
+                              "Elimina",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -200,9 +209,6 @@ class _PannelloAdminState extends State<PannelloAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameEventoController = TextEditingController();
-    final TextEditingController orarioController = TextEditingController();
-    final TextEditingController descrizioneController = TextEditingController();
 
     return WillPopScope(
       onWillPop: () async => false,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:progettoaspdm/home.dart';
 import 'package:progettoaspdm/pannello_admin.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
@@ -222,6 +223,12 @@ class _RegisterState extends State<Register> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => PannelloAdmin()));
+                                  }
+                                  else{
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Home(emailController.text)));
                                   }
 
                                   //Navigator.pop(context);

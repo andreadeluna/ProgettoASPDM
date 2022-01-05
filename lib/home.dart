@@ -65,15 +65,92 @@ class _HomeState extends State<Home> {
               GestureDetector(
                 onTap: () => {
                   updateData(doc),
-                Fluttertoast.showToast(
-                msg: "Iscrizione effettuata",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.blueGrey,
-                textColor: Colors.white,
-                fontSize: 16.0,
-                )
+
+                  Fluttertoast.showToast(
+                  msg: "Iscrizione effettuata",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.blueGrey,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                ),
+
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                  backgroundColor: Colors.grey[50],
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  ),
+                  content: Stack(
+                  overflow: Overflow.visible,
+                  alignment: Alignment.topCenter,
+                  children: [
+                  Container(
+                  height: 220,
+                  child: Padding(
+                  padding:
+                  EdgeInsets.fromLTRB(10, 70, 10, 10),
+                  child: Column(
+                  children: const [
+                  Text(
+                  "Iscrizione effettuata!",
+                  style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23),
+                  ),
+                  SizedBox(height: 30),
+                  Text(
+                  "Vai nelle tue iscrizioni per visualizzare il tuo codice personale! 🥳",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                  ),
+
+                  ],
+                  ),
+                  ),
+                  ),
+                  Positioned(
+                  top: -60,
+                  child: CircleAvatar(
+                  backgroundColor: Colors.purple[700],
+                  radius: 60,
+                  child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 50,
+                  ),
+                  ),
+                  )
+                  ],
+                  ),
+                  actions: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 50),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: Colors.purple[900]),
+                        child: const Center(
+                          child: Text(
+                            "Chiudi",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  ),
+                ),
+
                 },
                 child: Container(
                   height: 50,
