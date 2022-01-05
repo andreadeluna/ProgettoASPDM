@@ -69,7 +69,7 @@ class _RegisterState extends State<Register> {
                     children: const <Widget>[
                       Text(
                         "Registrazione",
-                        style: TextStyle(color: Colors.white, fontSize: 55),
+                        style: TextStyle(color: Colors.white, fontSize: 54),
                       )
                     ],
                   ),

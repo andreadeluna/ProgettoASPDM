@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:progettoaspdm/initial_page.dart';
 import 'package:progettoaspdm/lista_eventi.dart';
+import 'package:progettoaspdm/login.dart';
 import 'package:progettoaspdm/profilo.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawerUser extends StatelessWidget {
 
   String email;
 
-  AppDrawer(this.email);
+  AppDrawerUser(this.email);
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,10 @@ class AppDrawer extends StatelessWidget {
               title: Text('Logout', style: TextStyle(fontSize: 20)),
               onTap: () async {
                 await authService.signOut();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => InitialPage()));
               },
             )
           ],

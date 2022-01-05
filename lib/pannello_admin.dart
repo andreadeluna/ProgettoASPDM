@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:progettoaspdm/AppDrawerAdmin.dart';
 
 class PannelloAdmin extends StatefulWidget {
   @override
@@ -42,6 +43,44 @@ class _PannelloAdminState extends State<PannelloAdmin> {
               ),
               SizedBox(height: 12),
               Column(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Orario: ",
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "${doc.get('Orario')}",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Giorno: ",
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "${doc.get('Data')}",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                ],
+              ),
+              SizedBox(height: 12),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Text(
@@ -55,28 +94,9 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                 ],
               ),
               SizedBox(height: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    "Orario: ",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${doc.get('Orario')}",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  /*FlatButton(
-                    onPressed: () => updateData(doc),
-                    child: Text('Update'),
-                    color: Colors.green,
-                  ),*/
                   GestureDetector(
                     //onTap: () => deleteData(doc),
                     onTap: () {
@@ -196,6 +216,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
             )))),
         home: Center(
           child: Scaffold(
+            drawer: AppDrawerAdmin('aa@bb.com'),
             floatingActionButton: FloatButton(),
             appBar: AppBar(
               title: const Text('Pannello Admin',

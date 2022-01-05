@@ -67,6 +67,23 @@ class _ProfiloState extends State<Profilo> {
               ),
             ),
             SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Ruolo: ",
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${doc.get('TipoUtente')}",
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 12),
           ],
         ),
       ),
@@ -76,8 +93,12 @@ class _ProfiloState extends State<Profilo> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Profilo',
+              style: TextStyle(fontSize: 50, color: Colors.white)),
+          backgroundColor: Colors.purple[700],
+        ),
         resizeToAvoidBottomInset: false,
         body: Container(
           padding: EdgeInsets.symmetric(vertical: 0),
@@ -95,20 +116,7 @@ class _ProfiloState extends State<Profilo> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Text(
-                      "Profilo",
-                      style: TextStyle(color: Colors.white, fontSize: 60),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -171,8 +179,7 @@ class _ProfiloState extends State<Profilo> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
 

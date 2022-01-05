@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
                 style: TextStyle(fontSize: 50, color: Colors.white)),
               backgroundColor: Colors.purple[700],
             ),
-            drawer: AppDrawer(email),
+            drawer: AppDrawerUser(email),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 30),
               width: double.infinity,
