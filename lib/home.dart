@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,7 +5,6 @@ import 'package:progettoaspdm/AppDrawerUser.dart';
 import 'package:random_string/random_string.dart';
 
 class Home extends StatefulWidget {
-
   String email;
 
   Home(this.email);
@@ -16,14 +14,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   String email;
   final db = FirebaseFirestore.instance;
 
   GetOptions? documentId;
 
   _HomeState(this.email);
-
 
   Card buildItem(DocumentSnapshot doc) {
     return Card(
@@ -46,10 +42,11 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
-            children: <Widget> [
+            children: <Widget>[
               Text(
                 "${doc.get('NomeEvento')}",
-                style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 12),
               /*Text(
@@ -65,92 +62,78 @@ class _HomeState extends State<Home> {
               GestureDetector(
                 onTap: () => {
                   updateData(doc),
-
-                  Fluttertoast.showToast(
-                  msg: "Iscrizione effettuata",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.blueGrey,
-                  textColor: Colors.white,
-                  fontSize: 16.0,
-                ),
-
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                  backgroundColor: Colors.grey[50],
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  ),
-                  content: Stack(
-                  overflow: Overflow.visible,
-                  alignment: Alignment.topCenter,
-                  children: [
-                  Container(
-                  height: 220,
-                  child: Padding(
-                  padding:
-                  EdgeInsets.fromLTRB(10, 70, 10, 10),
-                  child: Column(
-                  children: const [
-                  Text(
-                  "Iscrizione effettuata!",
-                  style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23),
-                  ),
-                  SizedBox(height: 30),
-                  Text(
-                  "Vai nelle tue iscrizioni per visualizzare il tuo codice personale! 🥳",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
-                  ),
-
-                  ],
-                  ),
-                  ),
-                  ),
-                  Positioned(
-                  top: -60,
-                  child: CircleAvatar(
-                  backgroundColor: Colors.purple[700],
-                  radius: 60,
-                  child: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 50,
-                  ),
-                  ),
-                  )
-                  ],
-                  ),
-                  actions: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 50,
-                        margin: const EdgeInsets.symmetric(horizontal: 50),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Colors.purple[900]),
-                        child: const Center(
-                          child: Text(
-                            "Chiudi",
-                            style: TextStyle(
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      backgroundColor: Colors.grey[50],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      content: Stack(
+                        overflow: Overflow.visible,
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Container(
+                            height: 220,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(10, 70, 10, 10),
+                              child: Column(
+                                children: const [
+                                  Text(
+                                    "Iscrizione effettuata!",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 23),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Text(
+                                    "Vai nelle tue iscrizioni per visualizzare il tuo codice personale! 🥳",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: -60,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.purple[700],
+                              radius: 60,
+                              child: Icon(
+                                Icons.check,
                                 color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
+                                size: 50,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      actions: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            height: 50,
+                            margin: const EdgeInsets.symmetric(horizontal: 50),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.purple[900]),
+                            child: const Center(
+                              child: Text(
+                                "Chiudi",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
                   ),
-                ),
-
                 },
                 child: Container(
                   height: 50,
@@ -175,11 +158,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async => false,
       child: MaterialApp(
@@ -187,7 +167,7 @@ class _HomeState extends State<Home> {
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Eventi',
-                style: TextStyle(fontSize: 50, color: Colors.white)),
+                  style: TextStyle(fontSize: 50, color: Colors.white)),
               backgroundColor: Colors.purple[700],
             ),
             drawer: AppDrawerUser(email),
@@ -233,25 +213,26 @@ class _HomeState extends State<Home> {
                                 Column(
                                   //mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    StreamBuilder <QuerySnapshot> (
-                                      stream: db.collection('Eventi').snapshots(),
-                                      builder: (context, snapshot){
-                                        if(snapshot.hasData){
+                                    StreamBuilder<QuerySnapshot>(
+                                      stream:
+                                          db.collection('Eventi').snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
                                           return Column(
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children:
-                                            snapshot.data!.docs.map((doc) => buildItem(doc)).toList(),
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: snapshot.data!.docs
+                                                .map((doc) => buildItem(doc))
+                                                .toList(),
                                           );
-                                        }
-                                        else {
+                                        } else {
                                           return SizedBox();
                                         }
                                       },
                                     ),
                                   ],
                                 ),
-                            ]
-                          ),
+                              ]),
                         ),
                       ),
                     ),
@@ -265,13 +246,14 @@ class _HomeState extends State<Home> {
     );
   }
 
-
-
   void updateData(DocumentSnapshot doc) async {
+    QuerySnapshot querySnap = await FirebaseFirestore.instance
+        .collection('Utenti')
+        .where('Email', isEqualTo: 'aa@bb.com')
+        .get();
 
-    QuerySnapshot querySnap = await FirebaseFirestore.instance.collection('Utenti').where('Email', isEqualTo: 'aa@bb.com').get();
-
-    QueryDocumentSnapshot documentSnap = querySnap.docs[0];  // Assumption: the query returns only one document, THE doc you are looking for.
+    QueryDocumentSnapshot documentSnap = querySnap.docs[
+        0]; // Assumption: the query returns only one document, THE doc you are looking for.
 
     DocumentReference docRef = documentSnap.reference;
 
@@ -279,12 +261,16 @@ class _HomeState extends State<Home> {
 
     codice = randomAlphaNumeric(8);
 
+    await db.collection('Eventi').doc(doc.id).update({
+      'Iscritti': FieldValue.arrayUnion([
+        {'Nome': '${doc.get('NomeEvento')}', 'Codice': '${codice}'}
+      ])
+    });
 
-    await db.collection('Eventi').doc(doc.id)
-        .update({'Iscritti': FieldValue.arrayUnion([{'Nome': '${doc.get('NomeEvento')}', 'Codice': '${codice}'}])});
-
-    await docRef.update({'Eventi': FieldValue.arrayUnion([{'Evento': '${doc.get('NomeEvento')}', 'Codice': '${codice}'}])});
-
+    await docRef.update({
+      'Eventi': FieldValue.arrayUnion([
+        {'Evento': '${doc.get('NomeEvento')}', 'Codice': '${codice}'}
+      ])
+    });
   }
-
 }

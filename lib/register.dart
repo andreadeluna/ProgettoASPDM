@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/home.dart';
 import 'package:progettoaspdm/pannello_admin.dart';
 import 'package:progettoaspdm/services/authentication.dart';
@@ -217,6 +218,16 @@ class _RegisterState extends State<Register> {
                                     debugPrint(ref.id);
                                     debugPrint('Campo database creato');
                                   });
+
+                                  Fluttertoast.showToast(
+                                    msg: "Registrazione effettuata",
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.blueGrey,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
 
                                   if (tipoUtente == "Admin") {
                                     Navigator.push(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/home.dart';
 import 'package:progettoaspdm/pannello_admin.dart';
 import 'package:progettoaspdm/services/authentication.dart';
@@ -152,6 +153,16 @@ class _LoginState extends State<Login> {
                                     .signInWithEmailAndPassword(
                                     emailController.text,
                                     passwordController.text);
+
+                                Fluttertoast.showToast(
+                                  msg: "Login effettuato",
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.blueGrey,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
 
                                 FirebaseFirestore.instance
                                     .collection('Utenti')

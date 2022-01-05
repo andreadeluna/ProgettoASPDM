@@ -172,6 +172,17 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                                               color: Colors.purpleAccent)),
                                       onPressed: () {
                                         deleteData(doc);
+
+                                        Fluttertoast.showToast(
+                                          msg: "Evento eliminato",
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.blueGrey,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0,
+                                        );
+
                                         Navigator.pop(context, false);
                                       },
                                     ),

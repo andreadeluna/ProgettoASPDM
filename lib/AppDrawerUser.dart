@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/initial_page.dart';
 import 'package:progettoaspdm/lista_eventi.dart';
 import 'package:progettoaspdm/login.dart';
@@ -61,6 +62,16 @@ class AppDrawerUser extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => InitialPage()));
+
+                Fluttertoast.showToast(
+                  msg: "Logout effettuato",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.blueGrey,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
               },
             )
           ],
