@@ -5,15 +5,21 @@ import 'package:progettoaspdm/AppDrawerAdmin.dart';
 import 'package:progettoaspdm/lista_iscritti.dart';
 
 class PannelloAdmin extends StatefulWidget {
+
+  String email;
+
+  PannelloAdmin(this.email);
+
   @override
-  _PannelloAdminState createState() => _PannelloAdminState();
+  _PannelloAdminState createState() => _PannelloAdminState(email);
 }
 
 class _PannelloAdminState extends State<PannelloAdmin> {
   late String id;
+  String email;
   final db = FirebaseFirestore.instance;
-  final _formKey = GlobalKey<FormState>();
-  late String name;
+
+  _PannelloAdminState(this.email);
 
   Card buildItem(DocumentSnapshot doc) {
     return Card(
@@ -25,7 +31,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ListaIscritti()));
+                  builder: (context) => ListaIscritti(doc.get('NomeEvento'))));
         },
         child: Padding(
           padding: const EdgeInsets.all(0),
@@ -84,7 +90,20 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                         ),
                       ],
                     ),
-
+                  ],
+                ),
+                SizedBox(height: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      "Luogo: ",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${doc.get('Luogo')}",
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ],
                 ),
                 SizedBox(height: 12),
@@ -233,7 +252,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
             )))),
         home: Center(
           child: Scaffold(
-            drawer: AppDrawerAdmin('aa@bb.com'),
+            drawer: AppDrawerAdmin(email),
             floatingActionButton: FloatButton(),
             appBar: AppBar(
               title: const Text('Pannello Admin',
@@ -330,7 +349,7 @@ class _FloatButtonState extends State<FloatButton> {
   late String id;
   final db = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
-  late String name;
+  late String valore_campo;
 
   bool mostraPulsante = true;
 
@@ -338,6 +357,7 @@ class _FloatButtonState extends State<FloatButton> {
   Widget build(BuildContext context) {
     final TextEditingController nameEventoController = TextEditingController();
     final TextEditingController orarioController = TextEditingController();
+    final TextEditingController luogoController = TextEditingController();
     final TextEditingController dataController = TextEditingController();
     final TextEditingController descrizioneController = TextEditingController();
 
@@ -444,10 +464,10 @@ class _FloatButtonState extends State<FloatButton> {
                                                       decoration:
                                                           const InputDecoration(
                                                         labelText: "Nome",
-                                                        icon: Icon(Icons.home),
+                                                        icon: Icon(Icons.info),
                                                       ),
                                                       onSaved: (value) =>
-                                                          name = value!,
+                                                          valore_campo = value!,
                                                     ),
                                                   ),
                                                   Padding(
@@ -467,7 +487,27 @@ class _FloatButtonState extends State<FloatButton> {
                                                         icon: Icon(Icons.calendar_today_sharp),
                                                       ),
                                                       onSaved: (value) =>
-                                                      name = value!,
+                                                      valore_campo = value!,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                    const EdgeInsets.all(8.0),
+                                                    child: TextFormField(
+                                                      style: const TextStyle(fontSize: 20),
+                                                      controller: luogoController,
+                                                      validator: (value) {
+                                                        if (value!.isEmpty) {
+                                                          return 'Inserire il luogo';
+                                                        }
+                                                      },
+                                                      decoration:
+                                                      const InputDecoration(
+                                                        labelText: "Luogo",
+                                                        icon: Icon(Icons.location_on),
+                                                      ),
+                                                      onSaved: (value) =>
+                                                      valore_campo = value!,
                                                     ),
                                                   ),
                                                   Padding(
@@ -487,7 +527,7 @@ class _FloatButtonState extends State<FloatButton> {
                                                         icon: Icon(Icons.access_time_outlined),
                                                       ),
                                                       onSaved: (value) =>
-                                                          name = value!,
+                                                          valore_campo = value!,
                                                     ),
                                                   ),
                                                   Padding(
@@ -508,7 +548,7 @@ class _FloatButtonState extends State<FloatButton> {
                                                         icon: Icon(Icons.description),
                                                       ),
                                                       onSaved: (value) =>
-                                                          name = value!,
+                                                          valore_campo = value!,
                                                     ),
                                                   ),
                                                 ],
@@ -519,7 +559,7 @@ class _FloatButtonState extends State<FloatButton> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 40),
                                   GestureDetector(
                                       onTap: () async {
                                         if (_formKey.currentState!.validate()) {
@@ -530,6 +570,7 @@ class _FloatButtonState extends State<FloatButton> {
                                             'NomeEvento':
                                             '${nameEventoController.text}'
                                           });
+
                                           await db
                                               .collection('Eventi')
                                               .doc(ref.id)
@@ -537,18 +578,35 @@ class _FloatButtonState extends State<FloatButton> {
                                             'Data':
                                             '${dataController.text}'
                                           });
+
+                                          await db
+                                              .collection('Eventi')
+                                              .doc(ref.id)
+                                              .update({
+                                            'Luogo':
+                                            '${luogoController.text}'
+                                          });
+
                                           await db
                                               .collection('Eventi')
                                               .doc(ref.id)
                                               .update({
                                             'Orario': '${orarioController.text}'
                                           });
+
                                           await db
                                               .collection('Eventi')
                                               .doc(ref.id)
                                               .update({
                                             'Descrizione':
                                             '${descrizioneController.text}'
+                                          });
+
+                                          await db
+                                              .collection('Eventi')
+                                              .doc(ref.id)
+                                              .update({
+                                            'Iscritti': FieldValue.arrayUnion([])
                                           });
 
                                           setState(() {

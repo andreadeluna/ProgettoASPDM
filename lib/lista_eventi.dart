@@ -3,17 +3,25 @@ import 'package:flutter/material.dart';
 
 class ListaEventi extends StatefulWidget {
 
+  String email;
+
+  ListaEventi(this.email);
+
   @override
-  _ListaEventiState createState() => _ListaEventiState();
+  _ListaEventiState createState() => _ListaEventiState(email);
 }
 
 class _ListaEventiState extends State<ListaEventi> {
+
+  String email;
 
   List<Widget> textWidgetList = <Widget>[];
 
   final db = FirebaseFirestore.instance;
 
   List eventi = [];
+
+  _ListaEventiState(this.email);
 
 
 
@@ -101,7 +109,7 @@ class _ListaEventiState extends State<ListaEventi> {
         padding: EdgeInsets.all(8),
         children: <Widget>[
           StreamBuilder <QuerySnapshot> (
-            stream: db.collection('Utenti').where('Email', isEqualTo: 'aa@bb.com').snapshots(),
+            stream: db.collection('Utenti').where('Email', isEqualTo: email).snapshots(),
             builder: (context, snapshot){
               if(snapshot.hasData){
                 return Column(

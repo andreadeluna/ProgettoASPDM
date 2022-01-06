@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 
 class ListaIscritti extends StatefulWidget {
 
+  String nome;
+
+  ListaIscritti(this.nome);
+
   @override
-  _ListaIscrittiState createState() => _ListaIscrittiState();
+  _ListaIscrittiState createState() => _ListaIscrittiState(nome);
 }
 
 class _ListaIscrittiState extends State<ListaIscritti> {
@@ -14,6 +18,10 @@ class _ListaIscrittiState extends State<ListaIscritti> {
   final db = FirebaseFirestore.instance;
 
   List eventi = [];
+
+  String nome;
+
+  _ListaIscrittiState(this.nome);
 
 
 
@@ -68,7 +76,7 @@ class _ListaIscrittiState extends State<ListaIscritti> {
 
                   }
                   else{
-                    return Text('Non sono presenti eventi');
+                    return Text('Non sono presenti iscritti');
                   }
 
                 }
@@ -101,7 +109,7 @@ class _ListaIscrittiState extends State<ListaIscritti> {
         padding: EdgeInsets.all(8),
         children: <Widget>[
           StreamBuilder <QuerySnapshot> (
-            stream: db.collection('Eventi').where('NomeEvento', isEqualTo: 'Karaoke').snapshots(),
+            stream: db.collection('Eventi').where('NomeEvento', isEqualTo: nome).snapshots(),
             builder: (context, snapshot){
               if(snapshot.hasData){
                 return Column(

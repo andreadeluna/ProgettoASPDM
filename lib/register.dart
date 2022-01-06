@@ -206,6 +206,7 @@ class _RegisterState extends State<Register> {
                                       'Email': emailController.text,
                                       'Nome': nameController.text,
                                       'TipoUtente': tipoUtente,
+                                      'Eventi': []
                                     },
                                   );
 
@@ -233,7 +234,7 @@ class _RegisterState extends State<Register> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => PannelloAdmin()));
+                                            builder: (context) => PannelloAdmin(emailController.text)));
                                   }
                                   else{
                                     Navigator.push(

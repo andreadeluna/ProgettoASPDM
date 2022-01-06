@@ -42,7 +42,7 @@ class AppDrawerUser extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ListaEventi()));
+                        builder: (context) => ListaEventi(email)));
               },
             ),
             ListTile(

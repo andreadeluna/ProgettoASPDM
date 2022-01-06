@@ -249,7 +249,7 @@ class _HomeState extends State<Home> {
   void updateData(DocumentSnapshot doc) async {
     QuerySnapshot querySnap = await FirebaseFirestore.instance
         .collection('Utenti')
-        .where('Email', isEqualTo: 'aa@bb.com')
+        .where('Email', isEqualTo: email)
         .get();
 
     QueryDocumentSnapshot documentSnap = querySnap.docs[
@@ -263,7 +263,7 @@ class _HomeState extends State<Home> {
 
     await db.collection('Eventi').doc(doc.id).update({
       'Iscritti': FieldValue.arrayUnion([
-        {'Nome': '${doc.get('NomeEvento')}', 'Codice': '${codice}'}
+        {'Nome': '${documentSnap.get('Nome')}', 'Codice': '$codice'}
       ])
     });
 

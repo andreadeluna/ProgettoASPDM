@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/initial_page.dart';
-import 'package:progettoaspdm/lista_eventi.dart';
-import 'package:progettoaspdm/login.dart';
 import 'package:progettoaspdm/profilo.dart';
 import 'package:progettoaspdm/services/authentication.dart';
 import 'package:provider/provider.dart';
