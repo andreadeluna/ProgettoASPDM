@@ -155,7 +155,7 @@ class _ProfiloState extends State<Profilo> {
                               ),
                               const SizedBox(height: 30),
                               StreamBuilder <QuerySnapshot> (
-                                stream: db.collection('Utenti').where('Email', isEqualTo: 'aa@bb.com').snapshots(),
+                                stream: db.collection('Utenti').where('Email', isEqualTo: '$email').snapshots(),
                                 builder: (context, snapshot){
                                   if(snapshot.hasData){
                                     return Column(

@@ -230,19 +230,6 @@ class _RegisterState extends State<Register> {
                                     fontSize: 16.0,
                                   );
 
-                                  if (tipoUtente == "Admin") {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PannelloAdmin(emailController.text)));
-                                  }
-                                  else{
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Home(emailController.text)));
-                                  }
-
                                   //Navigator.pop(context);
                                   // errorMessage = '';
                                   // } on FirebaseAuthException catch (error){

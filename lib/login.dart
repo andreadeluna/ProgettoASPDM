@@ -163,34 +163,6 @@ class _LoginState extends State<Login> {
                                   textColor: Colors.white,
                                   fontSize: 16.0,
                                 );
-
-                                FirebaseFirestore.instance
-                                    .collection('Utenti')
-                                    .where('Email',
-                                    isEqualTo:
-                                    emailController.text)
-                                    .get()
-                                    .then((docs) {
-                                  if (docs.docs[0].exists) {
-                                    if (docs.docs[0]
-                                        .get('TipoUtente') ==
-                                        'Admin') {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PannelloAdmin(emailController.text)));
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Home(
-                                                      emailController
-                                                          .text)));
-                                    }
-                                  }
-                                });
                               },
                               child: Container(
                                 height: 50,
