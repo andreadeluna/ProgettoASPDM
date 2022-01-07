@@ -15,12 +15,7 @@ class _ProfiloState extends State<Profilo> {
 
   String email;
 
-  late String id;
   final db = FirebaseFirestore.instance;
-  final _formKey = GlobalKey<FormState>();
-  late String name;
-
-  List eventi = [];
 
 
 

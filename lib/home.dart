@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/AppDrawerUser.dart';
+import 'package:progettoaspdm/dettagli_evento.dart';
 import 'package:random_string/random_string.dart';
 
 class Home extends StatefulWidget {
@@ -26,132 +27,165 @@ class _HomeState extends State<Home> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.purple[50],
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
+      child: GestureDetector(
+        onTap: () async {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DettagliEvento(doc.get('NomeEvento'))));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(0),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.purple[50],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Text(
-                "${doc.get('NomeEvento')}",
-                style:
-                    const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 12),
-              /*Text(
-                "Descrizione: ${doc.get('Descrizione')}",
-                style: TextStyle(fontSize: 24),
-              ),
-              SizedBox(height: 12),*/
-              Text(
-                "Orario: ${doc.get('Orario')}",
-                style: TextStyle(fontSize: 24),
-              ),
-              SizedBox(height: 12),
-              GestureDetector(
-                onTap: () => {
-                  updateData(doc),
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      backgroundColor: Colors.grey[50],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      content: Stack(
-                        overflow: Overflow.visible,
-                        alignment: Alignment.topCenter,
-                        children: [
-                          Container(
-                            height: 220,
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(10, 70, 10, 10),
-                              child: Column(
-                                children: const [
-                                  Text(
-                                    "Iscrizione effettuata!",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 23),
-                                  ),
-                                  SizedBox(height: 30),
-                                  Text(
-                                    "Vai nelle tue iscrizioni per visualizzare il tuo codice personale! 🥳",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  "${doc.get('NomeEvento')}",
+                  style:
+                      const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 12),
+                /*Text(
+                  "Descrizione: ${doc.get('Descrizione')}",
+                  style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(height: 12),*/
+                Row(
+                  children: [
+                    Icon(Icons.access_time),
+                    SizedBox(width: 3),
+                    Text(
+                      "Orario: ",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${doc.get('Orario')}",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(Icons.location_on),
+                    SizedBox(width: 3),
+                    Text(
+                      "Luogo: ",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${doc.get('Luogo')}",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                GestureDetector(
+                  onTap: () => {
+                    updateData(doc),
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        backgroundColor: Colors.grey[50],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        content: Stack(
+                          overflow: Overflow.visible,
+                          alignment: Alignment.topCenter,
+                          children: [
+                            Container(
+                              height: 220,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(10, 70, 10, 10),
+                                child: Column(
+                                  children: const [
+                                    Text(
+                                      "Iscrizione effettuata!",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 23),
+                                    ),
+                                    SizedBox(height: 30),
+                                    Text(
+                                      "Vai nelle tue iscrizioni per visualizzare il tuo codice personale! 🥳",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: -60,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.purple[700],
+                                radius: 60,
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 50,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        actions: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              height: 50,
+                              margin: const EdgeInsets.symmetric(horizontal: 50),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Colors.purple[900]),
+                              child: const Center(
+                                child: Text(
+                                  "Chiudi",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ),
-                          Positioned(
-                            top: -60,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.purple[700],
-                              radius: 60,
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 50,
-                              ),
-                            ),
-                          )
                         ],
                       ),
-                      actions: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            height: 50,
-                            margin: const EdgeInsets.symmetric(horizontal: 50),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Colors.purple[900]),
-                            child: const Center(
-                              child: Text(
-                                "Chiudi",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    ),
+                  },
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.purple[900]),
+                    child: const Center(
+                      child: Text(
+                        "Iscriviti",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                },
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.purple[900]),
-                  child: const Center(
-                    child: Text(
-                      "Iscriviti",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

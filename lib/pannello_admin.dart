@@ -69,9 +69,15 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                               "Orario: ",
                               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              "${doc.get('Orario')}",
-                              style: TextStyle(fontSize: 20),
+                            Row(
+                              children: [
+                                Icon(Icons.access_time),
+                                SizedBox(width: 3),
+                                Text(
+                                  "${doc.get('Orario')}",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -82,9 +88,15 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                               "Giorno: ",
                               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              "${doc.get('Data')}",
-                              style: TextStyle(fontSize: 20),
+                            Row(
+                              children: [
+                                Icon(Icons.calendar_today),
+                                SizedBox(width: 3),
+                                Text(
+                                  "${doc.get('Data')}",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -100,9 +112,15 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                       "Luogo: ",
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "${doc.get('Luogo')}",
-                      style: TextStyle(fontSize: 20),
+                    Row(
+                      children: [
+                        Icon(Icons.location_on),
+                        SizedBox(width: 3),
+                        Text(
+                          "${doc.get('Luogo')}",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -114,9 +132,15 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                       "Descrizione: ",
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "${doc.get('Descrizione')}",
-                      style: TextStyle(fontSize: 20),
+                    Row(
+                      children: [
+                        Icon(Icons.description),
+                        SizedBox(width: 3),
+                        Text(
+                          "${doc.get('Descrizione')}",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
                     ),
                   ],
                 ),
