@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => DettagliEvento(doc.get('NomeEvento'))));
+                  builder: (context) => DettagliEvento(doc.get('NomeEvento'), doc.get('Luogo'))));
         },
         child: Padding(
           padding: const EdgeInsets.all(0),

@@ -1,18 +1,27 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:progettoaspdm/mappa.dart';
+import 'package:progettoaspdm/models/user.dart';
 
 class DettagliEvento extends StatefulWidget {
 
   String nomeEvento;
+  String luogoEvento;
 
-  DettagliEvento(this.nomeEvento);
+  DettagliEvento(this.nomeEvento, this.luogoEvento);
 
   @override
-  _DettagliEventoState createState() => _DettagliEventoState(nomeEvento);
+  _DettagliEventoState createState() => _DettagliEventoState(nomeEvento, luogoEvento);
 }
 
 
-Card buildItem(DocumentSnapshot doc) {
+
+
+Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, String indirizzo) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(30),
@@ -127,7 +136,7 @@ Card buildItem(DocumentSnapshot doc) {
                         Icon(Icons.phone),
                         SizedBox(width: 3),
                         Text(
-                          "Da inserire",
+                          "$numeroTelefono",
                           style: TextStyle(fontSize: 22),
                         ),
                       ],
@@ -159,6 +168,7 @@ Card buildItem(DocumentSnapshot doc) {
               ],
             ),
           ),
+          SizedBox(height: 20),
         ],
       ),
     ),
@@ -171,8 +181,69 @@ class _DettagliEventoState extends State<DettagliEvento> {
   final db = FirebaseFirestore.instance;
 
   String nomeEvento;
+  String luogoEvento;
 
-  _DettagliEventoState(this.nomeEvento);
+  late String numeroTelefono;
+  late String indirizzo;
+  late String posizione;
+
+  _DettagliEventoState(this.nomeEvento, this.luogoEvento);
+
+
+
+
+
+  Future getLocaleData() async {
+
+    //var response = await http.get(Uri.https('letsorderapi.herokuapp.com', '?tipo=diretto&lista=bosomurbino'));
+
+    String luogo = luogoEvento.replaceAll(' ', '');
+
+    debugPrint('NUOVO LUOGO: $luogo');
+
+    final response = await http.get(
+        Uri.parse("https://findeatapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
+        headers: {
+          HttpHeaders.acceptHeader: "application/json",
+          HttpHeaders.userAgentHeader: "SampleApp/1.0"
+        });
+
+    if(response.statusCode == 200){
+      var jsonData = json.decode(response.body);
+
+      debugPrint('RESPONSE: ${response.statusCode}');
+      debugPrint('JSONDATA: $jsonData');
+
+      Map<String, dynamic> dati = json.decode(response.body);
+      List<dynamic> locale = dati["lista"];
+
+      numeroTelefono = locale[0]["numtell"];
+      indirizzo = locale[0]["indirizzo"];
+      posizione = locale[0]["posizione"];
+
+      debugPrint('NUMERO DI TELEFONO: ${numeroTelefono}\nPOSIZIONE: ${posizione}\nINDIRIZZO: ${indirizzo}');
+
+      setState(() {
+
+      });
+    }
+    else{
+
+      debugPrint('STATUSCODE: ${response.statusCode}');
+
+      numeroTelefono = " ";
+      indirizzo = " ";
+      posizione = " ";
+
+      setState(() {
+
+      });
+
+    }
+
+  }
+
+
 
 
   @override
@@ -200,6 +271,19 @@ class _DettagliEventoState extends State<DettagliEvento> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ElevatedButton(
+                onPressed: (){
+                  getLocaleData();
+                },
+                child: Text('Prova')),
+            ElevatedButton(
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Mappa()));
+                },
+                child: Text('Mappa')),
             const SizedBox(height: 30),
             Expanded(
               child: Container(
@@ -224,7 +308,7 @@ class _DettagliEventoState extends State<DettagliEvento> {
                           if(snapshot.hasData){
                             return Column(
                               children:
-                              snapshot.data!.docs.map((doc) => buildItem(doc)).toList(),
+                              snapshot.data!.docs.map((doc) => buildItem(doc, numeroTelefono, posizione, indirizzo)).toList(),
                             );
                           }
                           else {
