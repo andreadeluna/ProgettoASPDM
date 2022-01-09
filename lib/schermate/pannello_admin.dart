@@ -142,15 +142,10 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    Row(
-                      children: [
-                        const Icon(Icons.description),
-                        const SizedBox(width: 3),
-                        Text(
-                          "${doc.get('Descrizione')}",
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
+                    Text(
+                      "${doc.get('Descrizione')}",
+                      textAlign: TextAlign.justify,
+                      style: const TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
