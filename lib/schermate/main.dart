@@ -2,10 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'splashscreen.dart';
 
+// Punto di inizio dell'applicazione
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Inizializzazione Firebase
   try{
     await Firebase.initializeApp(
       options: const FirebaseOptions(

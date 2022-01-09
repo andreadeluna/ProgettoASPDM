@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:progettoaspdm/login.dart';
-import 'package:progettoaspdm/register.dart';
-import 'package:progettoaspdm/services/authentication.dart';
-import 'package:provider/provider.dart';
+import 'package:progettoaspdm/schermate/login.dart';
+import 'package:progettoaspdm/schermate/registrazione.dart';
 
-class InitialPage extends StatefulWidget {
+// Pagine iniziale: contiene una bottom navigation bar che consente
+// di visualizzare la schermata di login oppure la schermata di registrazione
+class PaginaIniziale extends StatefulWidget {
+  const PaginaIniziale({Key? key}) : super(key: key);
 
   @override
-  State<InitialPage> createState() => _InitialPageState();
+  State<PaginaIniziale> createState() => _PaginaInizialeState();
 }
 
-class _InitialPageState extends State<InitialPage> {
-  int currentIndex = 0;
+// Definizione pagina iniziale
+class _PaginaInizialeState extends State<PaginaIniziale> {
+  // *** Dichiarazione variabili ***
+  int indice = 0;
 
   @override
   Widget build(BuildContext context) {
-
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -26,11 +26,10 @@ class _InitialPageState extends State<InitialPage> {
         unselectedItemColor: Colors.purple[900],
         selectedItemColor: Colors.purple,
         selectedFontSize: 20,
-        currentIndex: currentIndex,
+        currentIndex: indice,
         onTap: (index) {
-          //debugPrint("Tab $index selected");
           setState(() {
-            currentIndex = index;
+            indice = index;
           });
         },
         items: const [
@@ -42,27 +41,30 @@ class _InitialPageState extends State<InitialPage> {
       ),
       body: Builder(
         builder: (context) {
-          switch (currentIndex) {
+          switch (indice) {
+            // Visualizzazione schermata di registrazione
             case 1:
-              return Register();
+              return const Register();
 
+            // Visualizzazione schermata di login
             case 0:
             default:
-              return Login();
+              return const Login();
           }
         },
-      )
+      ),
     );
   }
 }
 
 
-class _IncreasingButton extends StatefulWidget {
+// Gestione bottom navigation bar
+class _CambiaStatoButton extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _IncreasingButtonState();
+  State<StatefulWidget> createState() => _CambiaStatoButtonState();
 }
 
-class _IncreasingButtonState extends State<_IncreasingButton> {
+class _CambiaStatoButtonState extends State<_CambiaStatoButton> {
   int counter = 1;
 
   @override

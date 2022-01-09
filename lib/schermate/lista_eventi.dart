@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+// Lista eventi: permette di visualizzare gli eventi a cui
+// è iscritto l'utente loggato all'interno dell'app
 class ListaEventi extends StatefulWidget {
-
+  // *** Dichiarazione variabili ***
   String email;
 
   ListaEventi(this.email);
@@ -11,20 +13,16 @@ class ListaEventi extends StatefulWidget {
   _ListaEventiState createState() => _ListaEventiState(email);
 }
 
+// Widget per la visualizzazione delle iscrizioni
 class _ListaEventiState extends State<ListaEventi> {
-
+  // *** Dichiarazione variabili ***
   String email;
-
   List<Widget> textWidgetList = <Widget>[];
-
   final db = FirebaseFirestore.instance;
-
-  List eventi = [];
 
   _ListaEventiState(this.email);
 
-
-
+  // Widget per la visualizzazione dei dati del singolo evento
   Card buildItem(DocumentSnapshot doc) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -37,21 +35,10 @@ class _ListaEventiState extends State<ListaEventi> {
           children: <Widget> [
             Builder(
                 builder: (context) {
-
+                  // Se sono presenti eventi
                   if(List.from(doc['Eventi']).length > 0){
 
-                    debugPrint('NUMERO EVENTI ${List.from(doc['Eventi']).length}');
-
                     for(int i = 0; i < List.from(doc['Eventi']).length; i++){
-
-                      debugPrint('STAMPA EVENTO');
-                      debugPrint("Eventi: ${doc['Eventi'][i]['Evento'].toString()}");
-
-
-                      /*return Text(
-                      "Eventi: ${doc['eventi'][i]['evento'].toString()}",
-                      style: TextStyle(fontSize: 24),
-                    );*/
 
                       textWidgetList.add(
                           Column(
@@ -111,10 +98,7 @@ class _ListaEventiState extends State<ListaEventi> {
                             ],
                           ),
                       );
-
                     }
-
-                    debugPrint('$textWidgetList');
 
                     return Column(
                       children: [
@@ -125,7 +109,6 @@ class _ListaEventiState extends State<ListaEventi> {
                         )
                       ]
                     );
-
                   }
                   else{
                     return Padding(
@@ -144,7 +127,6 @@ class _ListaEventiState extends State<ListaEventi> {
                       ),
                     );
                   }
-
                 }
             ),
             //SizedBox(height: 12),
@@ -154,6 +136,7 @@ class _ListaEventiState extends State<ListaEventi> {
     );
   }
 
+  // Widget di costruzione della schermata di visualizzazione delle iscrizioni
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -197,6 +180,7 @@ class _ListaEventiState extends State<ListaEventi> {
                   child: ListView(
                     padding: EdgeInsets.all(0),
                     children: <Widget>[
+                      // Visualizzazione iscrizioni
                       StreamBuilder <QuerySnapshot> (
                         stream: db.collection('Utenti').where('Email', isEqualTo: email).snapshots(),
                         builder: (context, snapshot){

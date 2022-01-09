@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:progettoaspdm/initial_page.dart';
-import 'package:progettoaspdm/profilo.dart';
-import 'package:progettoaspdm/services/authentication.dart';
+import 'package:progettoaspdm/schermate/pagina_iniziale.dart';
+import 'package:progettoaspdm/schermate/profilo.dart';
+import 'package:progettoaspdm/servizi/authentication.dart';
 import 'package:provider/provider.dart';
 
+// App Drawer Admin: visualizza il drawer per l'utente di tipo admin,
+// permette di visualizzare il profilo e gli eventi a cui l'utente è
+// iscritto e di effettuare il logout
 class AppDrawerAdmin extends StatelessWidget {
-
+  // *** Dichiarazione variabili ***
   String email;
 
   AppDrawerAdmin(this.email);
 
+  // Definizione drawer
   @override
   Widget build(BuildContext context) {
 
-    final authService = Provider.of<Authentication>(context);
+    final authService = Provider.of<Autenticazione>(context);
 
     return Drawer(
       child: ListView(
@@ -50,8 +54,9 @@ class AppDrawerAdmin extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => InitialPage()));
+                      builder: (context) => PaginaIniziale()));
 
+              // Toast di avvenuto logout
               Fluttertoast.showToast(
                 msg: "Logout effettuato",
                 toastLength: Toast.LENGTH_LONG,

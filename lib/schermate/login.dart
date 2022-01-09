@@ -2,51 +2,50 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:progettoaspdm/home.dart';
-import 'package:progettoaspdm/pannello_admin.dart';
-import 'package:progettoaspdm/services/authentication.dart';
+import 'package:progettoaspdm/servizi/authentication.dart';
 import 'package:provider/provider.dart';
 
-class Register extends StatefulWidget {
+// Login: permette di effettuare il login nell'applicazione
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
   @override
-  State<Register> createState() => _RegisterState();
+  State<Login> createState() => _LoginState();
 }
 
-class _RegisterState extends State<Register> {
-  late String id;
-
+// Definizione pagina di login
+class _LoginState extends State<Login> {
+  // *** Dichiarazione variabili ***
   final db = FirebaseFirestore.instance;
-
   final _formKey = GlobalKey<FormState>();
-
-  String? tipoUtente = 'User';
-
-  final items = ["User", "Admin"];
-
   String errorMessage = '';
 
+  // Widget di costruzione della schermata di login
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
+    // *** Dichiarazione variabili ***
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    final authService = Provider.of<Autenticazione>(context);
 
-    final authService = Provider.of<Authentication>(context);
-
+    // Impedisco di tornare alla schermata precedente
     return WillPopScope(
       onWillPop: () async => false,
       child: MaterialApp(
         theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-            inputDecorationTheme: const InputDecorationTheme(
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-              color: Colors.purple,
-            )))),
+          primarySwatch: Colors.deepPurple,
+          inputDecorationTheme: const InputDecorationTheme(
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.purple,
+              ),
+            ),
+          ),
+        ),
         home: Scaffold(
           resizeToAvoidBottomInset: false,
           body: Container(
-            padding: EdgeInsets.symmetric(vertical: 0),
+            padding: const EdgeInsets.symmetric(vertical: 0),
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -68,8 +67,8 @@ class _RegisterState extends State<Register> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const <Widget>[
                       Text(
-                        "Registrazione",
-                        style: TextStyle(color: Colors.white, fontSize: 54),
+                        "Login",
+                        style: TextStyle(color: Colors.white, fontSize: 60),
                       )
                     ],
                   ),
@@ -93,7 +92,7 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           children: [
-                            const SizedBox(height: 5),
+                            const SizedBox(height: 60),
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -121,54 +120,8 @@ class _RegisterState extends State<Register> {
                                       child: Center(
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Icon(Icons.settings,
-                                                      color: Colors.grey[500]),
-                                                  Text('Tipo utente',
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          color: Colors
-                                                              .grey[700])),
-                                                  DropdownButton<String>(
-                                                    items: items
-                                                        .map(buildMenuItem)
-                                                        .toList(),
-                                                    hint: const Text("User",
-                                                        style: TextStyle(
-                                                            fontSize: 20)),
-                                                    value: tipoUtente,
-                                                    onChanged: (valore) =>
-                                                        setState(() {
-                                                      this.tipoUtente = valore;
-                                                    }),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: TextFormField(
-                                                style: const TextStyle(
-                                                    fontSize: 20),
-                                                controller: nameController,
-                                                validator: validateNome,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  labelText: "Nome",
-                                                  icon: Icon(Icons.person),
-                                                ),
-                                              ),
-                                            ),
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
@@ -176,7 +129,7 @@ class _RegisterState extends State<Register> {
                                                 style: const TextStyle(
                                                     fontSize: 20),
                                                 controller: emailController,
-                                                validator: validateEmail,
+                                                validator: validazioneEmail,
                                                 decoration:
                                                     const InputDecoration(
                                                   labelText: "Email",
@@ -192,7 +145,7 @@ class _RegisterState extends State<Register> {
                                                     fontSize: 20),
                                                 obscureText: true,
                                                 controller: passwordController,
-                                                validator: validatePassword,
+                                                validator: validazionePassword,
                                                 decoration:
                                                     const InputDecoration(
                                                   labelText: "Password",
@@ -205,7 +158,7 @@ class _RegisterState extends State<Register> {
                                                 children: [
                                                   Text(
                                                     errorMessage,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Colors.red),
                                                   ),
                                                 ],
@@ -219,32 +172,21 @@ class _RegisterState extends State<Register> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 50),
+                            const SizedBox(height: 100),
                             GestureDetector(
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
                                   try {
+                                    // Effettuo il login
                                     _formKey.currentState!.save();
-                                    DocumentReference ref =
-                                        await db.collection('Utenti').add(
-                                      {
-                                        'Email': emailController.text,
-                                        'Nome': nameController.text,
-                                        'TipoUtente': tipoUtente,
-                                        'Eventi': []
-                                      },
-                                    );
-
                                     await authService
-                                        .createUserWithEmailAndPassword(
+                                        .signInWithEmailAndPassword(
                                             emailController.text,
                                             passwordController.text);
-                                    debugPrint('Registrazione effettuata');
 
-                                    id = ref.id;
-
+                                    // Toast di avvenuto login
                                     Fluttertoast.showToast(
-                                      msg: "Registrazione effettuata",
+                                      msg: "Login effettuato",
                                       toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 1,
@@ -254,9 +196,11 @@ class _RegisterState extends State<Register> {
                                     );
                                     errorMessage = '';
                                   } on FirebaseAuthException catch (error) {
+                                    // Se il login non è andato a buon fine visualizzo
+                                    // un messaggio di errore contenente l'eccezione
+                                    // restituita da Firebase
                                     errorMessage = error.message!;
                                   }
-
                                   setState(() {});
                                 }
                               },
@@ -269,7 +213,7 @@ class _RegisterState extends State<Register> {
                                     color: Colors.purple[900]),
                                 child: const Center(
                                   child: Text(
-                                    "Registrati",
+                                    "Login",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 25,
@@ -291,28 +235,10 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
-
-  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-      );
 }
 
-String? validateNome(String? formNome) {
-  if (formNome == null || formNome.isEmpty) {
-    return "Il nome è richiesto";
-  }
-
-  return null;
-}
-
-String? validateEmail(String? formEmail) {
+// Validazione campo di inserimento indirizzo email
+String? validazioneEmail(String? formEmail) {
   if (formEmail == null || formEmail.isEmpty) {
     return "L'indirizzo e-mail è richiesto";
   }
@@ -327,19 +253,10 @@ String? validateEmail(String? formEmail) {
   return null;
 }
 
-String? validatePassword(String? formPassword) {
+// Validazione campo di inserimento password
+String? validazionePassword(String? formPassword) {
   if (formPassword == null || formPassword.isEmpty) {
     return "La password è richiesta";
-  }
-
-  String pattern =
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-  RegExp regex = RegExp(pattern);
-
-  if (!regex.hasMatch(formPassword)) {
-    return '''La password deve essere di almeno 8 caratteri\n 
-              e deve contenere una lettera maiuscola, \n
-              un numero e un simbolo''';
   }
 
   return null;

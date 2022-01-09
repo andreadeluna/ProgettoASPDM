@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:progettoaspdm/AppDrawerAdmin.dart';
-import 'package:progettoaspdm/lista_iscritti.dart';
+import 'package:progettoaspdm/schermate/appdrawer_admin.dart';
+import 'package:progettoaspdm/schermate/lista_iscritti.dart';
 
+// Pannello admin: permette di visualizzare gli eventi creati, visualizzarne
+// i relativi iscritti, eliminarli e crearne di nuovi
 class PannelloAdmin extends StatefulWidget {
-
+  // *** Dichiarazione variabili ***
   String email;
 
-  PannelloAdmin(this.email);
+  PannelloAdmin(this.email, {Key? key}) : super(key: key);
 
   @override
   _PannelloAdminState createState() => _PannelloAdminState(email);
 }
 
+// Definizione pannello admin
 class _PannelloAdminState extends State<PannelloAdmin> {
+  // *** Dichiarazione variabili ***
   late String id;
   String email;
   final db = FirebaseFirestore.instance;
 
   _PannelloAdminState(this.email);
 
+  // Widget per la visualizzazione del singolo evento
   Card buildItem(DocumentSnapshot doc) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -28,6 +33,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
       ),
       child: GestureDetector(
         onTap: () async {
+          // Visualizzazione utenti iscritti all'evento
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -52,10 +58,10 @@ class _PannelloAdminState extends State<PannelloAdmin> {
               children: <Widget>[
                 Text(
                   "${doc.get('NomeEvento')}",
-                  style:
-                      const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 35, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Column(
                   //crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -67,15 +73,16 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                           children: [
                             const Text(
                               "Orario: ",
-                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             Row(
                               children: [
-                                Icon(Icons.access_time),
-                                SizedBox(width: 3),
+                                const Icon(Icons.access_time),
+                                const SizedBox(width: 3),
                                 Text(
                                   "${doc.get('Orario')}",
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 ),
                               ],
                             ),
@@ -86,15 +93,16 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                           children: [
                             const Text(
                               "Giorno: ",
-                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             Row(
                               children: [
-                                Icon(Icons.calendar_today),
-                                SizedBox(width: 3),
+                                const Icon(Icons.calendar_today),
+                                const SizedBox(width: 3),
                                 Text(
                                   "${doc.get('Data')}",
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 ),
                               ],
                             ),
@@ -104,52 +112,54 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
                       "Luogo: ",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
-                        Icon(Icons.location_on),
-                        SizedBox(width: 3),
+                        const Icon(Icons.location_on),
+                        const SizedBox(width: 3),
                         Text(
                           "${doc.get('Luogo')}",
-                          style: TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 20),
                         ),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
                       "Descrizione: ",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
-                        Icon(Icons.description),
-                        SizedBox(width: 3),
+                        const Icon(Icons.description),
+                        const SizedBox(width: 3),
                         Text(
                           "${doc.get('Descrizione')}",
-                          style: TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 20),
                         ),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
+                    // Richiesta di conferma eliminazione evento
                     GestureDetector(
-                      //onTap: () => deleteData(doc),
                       onTap: () {
                         showDialog(
                             context: context,
@@ -159,14 +169,14 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   content: Stack(
-                                    overflow: Overflow.visible,
+                                    clipBehavior: Clip.none,
                                     alignment: Alignment.topCenter,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 150,
                                         child: Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(10, 70, 10, 10),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10, 70, 10, 10),
                                           child: Column(
                                             children: const [
                                               Text(
@@ -189,7 +199,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                                         child: CircleAvatar(
                                           backgroundColor: Colors.purple[700],
                                           radius: 60,
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.delete,
                                             color: Colors.white,
                                             size: 50,
@@ -214,8 +224,9 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                                               fontSize: 20,
                                               color: Colors.purpleAccent)),
                                       onPressed: () {
-                                        deleteData(doc);
+                                        eliminaEvento(doc);
 
+                                        // Toast di avvenuta eliminazione
                                         Fluttertoast.showToast(
                                           msg: "Evento eliminato",
                                           toastLength: Toast.LENGTH_LONG,
@@ -261,30 +272,34 @@ class _PannelloAdminState extends State<PannelloAdmin> {
     );
   }
 
+  // Widget di costruzione della schermata del pannello admin
   @override
   Widget build(BuildContext context) {
-
+    // Impedisco di tornare alla schermata precedente
     return WillPopScope(
       onWillPop: () async => false,
       child: MaterialApp(
         theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-            inputDecorationTheme: const InputDecorationTheme(
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-              color: Colors.purple,
-            )))),
+          primarySwatch: Colors.deepPurple,
+          inputDecorationTheme: const InputDecorationTheme(
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.purple,
+              ),
+            ),
+          ),
+        ),
         home: Center(
           child: Scaffold(
             drawer: AppDrawerAdmin(email),
-            floatingActionButton: FloatButton(),
+            floatingActionButton: const FloatButton(),
             appBar: AppBar(
               title: const Text('Pannello Admin',
                   style: TextStyle(fontSize: 40, color: Colors.white)),
               backgroundColor: Colors.purple[700],
             ),
             body: Container(
-              padding: EdgeInsets.symmetric(vertical: 30),
+              padding: const EdgeInsets.symmetric(vertical: 30),
               width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -320,10 +335,11 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListView(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             children: <Widget>[
                               Column(
                                 children: [
+                                  // Visualizzazione eventi
                                   StreamBuilder<QuerySnapshot>(
                                     stream: db.collection('Eventi').snapshots(),
                                     builder: (context, snapshot) {
@@ -334,7 +350,7 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                                               .toList(),
                                         );
                                       } else {
-                                        return SizedBox();
+                                        return const SizedBox();
                                       }
                                     },
                                   ),
@@ -355,8 +371,8 @@ class _PannelloAdminState extends State<PannelloAdmin> {
     );
   }
 
-
-  void deleteData(DocumentSnapshot doc) async {
+  // Eliminazione evento
+  void eliminaEvento(DocumentSnapshot doc) async {
     await db.collection('Eventi').doc(doc.id).delete();
     setState(() {
       id = 'null';
@@ -364,22 +380,28 @@ class _PannelloAdminState extends State<PannelloAdmin> {
   }
 }
 
+// Floating button per la visualizzazione della bottom sheet
+// di creazione di un nuovo evento
 class FloatButton extends StatefulWidget {
+  const FloatButton({Key? key}) : super(key: key);
+
   @override
   _FloatButtonState createState() => _FloatButtonState();
 }
 
 class _FloatButtonState extends State<FloatButton> {
+  // *** Dichiarazione variabili ***
   late String id;
   final db = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
-  late String valore_campo;
-
+  late String valoreCampo;
   bool mostraPulsante = true;
 
+  // Widget di costruzione del floating button e della bottom sheet
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameEventoController = TextEditingController();
+    // *** Dichiarazione variabili ***
+    final TextEditingController nomeEventoController = TextEditingController();
     final TextEditingController orarioController = TextEditingController();
     final TextEditingController luogoController = TextEditingController();
     final TextEditingController dataController = TextEditingController();
@@ -387,7 +409,7 @@ class _FloatButtonState extends State<FloatButton> {
 
     return mostraPulsante
         ? FloatingActionButton(
-            child: Icon(Icons.add, size: 45),
+            child: const Icon(Icons.add, size: 45),
             backgroundColor: Colors.purple[900],
             onPressed: () {
               // Visualizzazione bottom sheet
@@ -398,12 +420,12 @@ class _FloatButtonState extends State<FloatButton> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 builder: (context) => Container(
-                  margin: EdgeInsets.only(left: 0, right: 0),
+                  margin: const EdgeInsets.only(left: 0, right: 0),
                   width: double.infinity,
                   height: 750,
                   decoration: BoxDecoration(
                     color: Colors.purple[900],
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15),
                     ),
@@ -411,12 +433,13 @@ class _FloatButtonState extends State<FloatButton> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Padding(
-                        padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+                        padding:
+                            const EdgeInsets.only(left: 0, right: 0, top: 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 20, right: 20),
                               child: Text(
@@ -430,23 +453,23 @@ class _FloatButtonState extends State<FloatButton> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Expanded(
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40)),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
                             child: SingleChildScrollView(
                               padding: const EdgeInsets.all(10),
                               child: Column(
                                 children: <Widget>[
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Container(
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -455,31 +478,36 @@ class _FloatButtonState extends State<FloatButton> {
                                           BoxShadow(
                                             color: Colors.purple[100]!,
                                             blurRadius: 20,
-                                            offset: Offset(0, 10),
+                                            offset: const Offset(0, 10),
                                           )
                                         ]),
                                     child: Column(
                                       children: <Widget>[
                                         Container(
-                                          padding: EdgeInsets.all(10),
+                                          padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                              border: Border(
-                                                  bottom: BorderSide(
-                                                      color: Colors.grey[200]!))),
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey[200]!),
+                                            ),
+                                          ),
                                           child: Form(
                                             key: _formKey,
                                             // child: buildTextFormField(),
                                             child: Center(
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsets.all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: TextFormField(
-                                                      style: const TextStyle(fontSize: 20),
+                                                      style: const TextStyle(
+                                                          fontSize: 20),
                                                       controller:
-                                                          nameEventoController,
+                                                          nomeEventoController,
                                                       validator: (value) {
                                                         if (value!.isEmpty) {
                                                           return 'Inserire il nome';
@@ -491,55 +519,66 @@ class _FloatButtonState extends State<FloatButton> {
                                                         icon: Icon(Icons.info),
                                                       ),
                                                       onSaved: (value) =>
-                                                          valore_campo = value!,
+                                                          valoreCampo = value!,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                    const EdgeInsets.all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: TextFormField(
-                                                      style: const TextStyle(fontSize: 20),
-                                                      controller: dataController,
+                                                      style: const TextStyle(
+                                                          fontSize: 20),
+                                                      controller:
+                                                          dataController,
                                                       validator: (value) {
                                                         if (value!.isEmpty) {
                                                           return 'Inserire la data';
                                                         }
                                                       },
                                                       decoration:
-                                                      const InputDecoration(
+                                                          const InputDecoration(
                                                         labelText: "Giorno",
-                                                        icon: Icon(Icons.calendar_today_sharp),
+                                                        icon: Icon(Icons
+                                                            .calendar_today_sharp),
                                                       ),
                                                       onSaved: (value) =>
-                                                      valore_campo = value!,
+                                                          valoreCampo = value!,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                    const EdgeInsets.all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: TextFormField(
-                                                      style: const TextStyle(fontSize: 20),
-                                                      controller: luogoController,
+                                                      style: const TextStyle(
+                                                          fontSize: 20),
+                                                      controller:
+                                                          luogoController,
                                                       validator: (value) {
                                                         if (value!.isEmpty) {
                                                           return 'Inserire il luogo';
                                                         }
                                                       },
                                                       decoration:
-                                                      const InputDecoration(
+                                                          const InputDecoration(
                                                         labelText: "Luogo",
-                                                        icon: Icon(Icons.location_on),
+                                                        icon: Icon(
+                                                            Icons.location_on),
                                                       ),
                                                       onSaved: (value) =>
-                                                      valore_campo = value!,
+                                                          valoreCampo = value!,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsets.all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: TextFormField(
-                                                      style: const TextStyle(fontSize: 20),
-                                                      controller: orarioController,
+                                                      style: const TextStyle(
+                                                          fontSize: 20),
+                                                      controller:
+                                                          orarioController,
                                                       validator: (value) {
                                                         if (value!.isEmpty) {
                                                           return "Inserire l'ora";
@@ -548,17 +587,20 @@ class _FloatButtonState extends State<FloatButton> {
                                                       decoration:
                                                           const InputDecoration(
                                                         labelText: "Orario",
-                                                        icon: Icon(Icons.access_time_outlined),
+                                                        icon: Icon(Icons
+                                                            .access_time_outlined),
                                                       ),
                                                       onSaved: (value) =>
-                                                          valore_campo = value!,
+                                                          valoreCampo = value!,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsets.all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: TextFormField(
-                                                      style: const TextStyle(fontSize: 20),
+                                                      style: const TextStyle(
+                                                          fontSize: 20),
                                                       controller:
                                                           descrizioneController,
                                                       validator: (value) {
@@ -568,11 +610,13 @@ class _FloatButtonState extends State<FloatButton> {
                                                       },
                                                       decoration:
                                                           const InputDecoration(
-                                                        labelText: "Descrizione",
-                                                        icon: Icon(Icons.description),
+                                                        labelText:
+                                                            "Descrizione",
+                                                        icon: Icon(
+                                                            Icons.description),
                                                       ),
                                                       onSaved: (value) =>
-                                                          valore_campo = value!,
+                                                          valoreCampo = value!,
                                                     ),
                                                   ),
                                                 ],
@@ -583,84 +627,80 @@ class _FloatButtonState extends State<FloatButton> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 40),
+                                  const SizedBox(height: 40),
+                                  // Creazione nuovo evento
                                   GestureDetector(
-                                      onTap: () async {
-                                        if (_formKey.currentState!.validate()) {
-                                          _formKey.currentState!.save();
-                                          DocumentReference ref = await db
-                                              .collection('Eventi')
-                                              .add({
-                                            'NomeEvento':
-                                            '${nameEventoController.text}'
-                                          });
+                                    onTap: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState!.save();
+                                        DocumentReference ref = await db
+                                            .collection('Eventi')
+                                            .add({
+                                          'NomeEvento':
+                                              nomeEventoController.text
+                                        });
 
-                                          await db
-                                              .collection('Eventi')
-                                              .doc(ref.id)
-                                              .update({
-                                            'Data':
-                                            '${dataController.text}'
-                                          });
+                                        await db
+                                            .collection('Eventi')
+                                            .doc(ref.id)
+                                            .update(
+                                                {'Data': dataController.text});
 
-                                          await db
-                                              .collection('Eventi')
-                                              .doc(ref.id)
-                                              .update({
-                                            'Luogo':
-                                            '${luogoController.text}'
-                                          });
+                                        await db
+                                            .collection('Eventi')
+                                            .doc(ref.id)
+                                            .update({
+                                          'Luogo': luogoController.text
+                                        });
 
-                                          await db
-                                              .collection('Eventi')
-                                              .doc(ref.id)
-                                              .update({
-                                            'Orario': '${orarioController.text}'
-                                          });
+                                        await db
+                                            .collection('Eventi')
+                                            .doc(ref.id)
+                                            .update({
+                                          'Orario': orarioController.text
+                                        });
 
-                                          await db
-                                              .collection('Eventi')
-                                              .doc(ref.id)
-                                              .update({
-                                            'Descrizione':
-                                            '${descrizioneController.text}'
-                                          });
+                                        await db
+                                            .collection('Eventi')
+                                            .doc(ref.id)
+                                            .update({
+                                          'Descrizione':
+                                              descrizioneController.text
+                                        });
 
-                                          await db
-                                              .collection('Eventi')
-                                              .doc(ref.id)
-                                              .update({
-                                            'Iscritti': FieldValue.arrayUnion([])
-                                          });
+                                        await db
+                                            .collection('Eventi')
+                                            .doc(ref.id)
+                                            .update({
+                                          'Iscritti': FieldValue.arrayUnion([])
+                                        });
 
-                                          setState(() {
-                                            id = ref.id;
-                                            print(ref.id);
-                                          });
-                                        }
+                                        setState(() {
+                                          id = ref.id;
+                                        });
+                                      }
 
-                                        Fluttertoast.showToast(
-                                          msg: "Evento creato",
-                                          toastLength: Toast.LENGTH_LONG,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.blueGrey,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0,
-                                        );
+                                      Fluttertoast.showToast(
+                                        msg: "Evento creato",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.blueGrey,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0,
+                                      );
 
-                                        Navigator.pop(context, false);
-
-
-                                      },
+                                      Navigator.pop(context, false);
+                                    },
                                     child: Container(
                                       height: 50,
-                                      margin: const EdgeInsets.symmetric(horizontal: 50),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 50),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
                                         color: Colors.purple[900],
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text(
                                           "Crea",
                                           style: TextStyle(
@@ -691,6 +731,7 @@ class _FloatButtonState extends State<FloatButton> {
         : Container();
   }
 
+  // Gestione visualizzazione floating button
   void _mostraPulsante(bool valore) {
     setState(() {
       mostraPulsante = valore;

@@ -1,35 +1,29 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:progettoaspdm/pannello_admin.dart';
-import 'package:progettoaspdm/register.dart';
-import 'package:progettoaspdm/services/authentication.dart';
-import 'package:progettoaspdm/wrapper.dart';
+import 'package:progettoaspdm/servizi/authentication.dart';
+import 'package:progettoaspdm/schermate/wrapper.dart';
 import 'package:provider/provider.dart';
 
-import 'home.dart';
-import 'initial_page.dart';
-
-// Schermata iniziale: visualizzazione splash screen
+// Schermata iniziale: visualizzazione splash screen e indirizzamento
+// alla home se l'utente è già autenticato oppure alla schermata di login
+// se l'utente non è autenticato
 class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   // Definizione schermata iniziale
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<Authentication>(
-          create: (_) => Authentication(),
+        Provider<Autenticazione>(
+          create: (_) => Autenticazione(),
         ),
       ],
       child: MaterialApp(
         title: 'Progetto ASPDM',
-        //home: SplashScreen(),
         initialRoute: '/',
         routes: {
-          '/': (context) => SplashScreen(),
-          '/login': (context) => InitialPage(),
-          '/register': (context) => Register(),
-          //'/database': (context) => PannelloAdmin(),
+          '/': (context) => const SplashScreen(),
         },
       ),
     );
@@ -38,27 +32,23 @@ class App extends StatelessWidget {
 
 // Implementazione splash screen
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
-  // Definizione della splash screen
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-// Implementazione della splash screen
 class _SplashScreenState extends State<SplashScreen> {
-
-  // Visualizzazione della splash screen per 3 secondi
+  // Visualizzazione della splash screen per 2 secondi
   @override
   void initState() {
     super.initState();
     Timer(
       const Duration(seconds: 2),
-          () {
-        // Apertura schermata di inserimento dati
+      () {
+        // Apertura schermata di autenticazione o dell'homepage
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Wrapper()));
+            context, MaterialPageRoute(builder: (context) => Wrapper()));
       },
     );
   }
@@ -72,13 +62,13 @@ class _SplashScreenState extends State<SplashScreen> {
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.purple,
-            inputDecorationTheme: const InputDecorationTheme(
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.purple,
-                )
-              )
-            )
+          inputDecorationTheme: const InputDecorationTheme(
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.purple,
+              ),
+            ),
+          ),
         ),
         home: Scaffold(
           backgroundColor: Colors.purple[700],

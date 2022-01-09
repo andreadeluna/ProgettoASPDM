@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:progettoaspdm/mappa.dart';
+import 'package:progettoaspdm/schermate/mappa.dart';
 
+// Dettagli evento: permette di visualizzare i dettagli dell'evento
+// e di visualizzare di conseguenza la posizione del locale
 class DettagliEvento extends StatefulWidget {
 
+  // *** Dichiarazione variabili ***
   String nomeEvento;
   String luogoEvento;
 
@@ -18,9 +20,10 @@ class DettagliEvento extends StatefulWidget {
   _DettagliEventoState createState() => _DettagliEventoState(nomeEvento, luogoEvento);
 }
 
+// *** Dichiarazione variabili ***
 int responseCode = 0;
 
-
+// Widget per la visualizzazione dei dettagli
 Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, String indirizzo, int responseCode) {
   return Card(
     shape: RoundedRectangleBorder(
@@ -198,6 +201,7 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
                     Builder(
                       builder: (context){
                         if(responseCode == 200){
+                          // Visualizzazione posizzione del locale in una mappa
                           return GestureDetector(
                               onTap: (){
                                 Navigator.push(
@@ -247,13 +251,12 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
 }
 
 
+// Definizione pagina di visualizzazione dettagli
 class _DettagliEventoState extends State<DettagliEvento> {
-
+  // *** Dichiarazione variabili ***
   final db = FirebaseFirestore.instance;
-
   String nomeEvento;
   String luogoEvento;
-
   late String numeroTelefono = '';
   late String indirizzo = '';
   late String posizione = '';
@@ -261,11 +264,12 @@ class _DettagliEventoState extends State<DettagliEvento> {
   _DettagliEventoState(this.nomeEvento, this.luogoEvento);
 
 
-
+  // Inizializzazione pagina
   @override
   void initState() {
     super.initState();
 
+    //  Caricamento dati da API
     Timer(
       const Duration(seconds: 2),
           () {
@@ -275,14 +279,13 @@ class _DettagliEventoState extends State<DettagliEvento> {
   }
 
 
+  // Caricamento dati da API
   Future getLocaleData() async {
 
-    //var response = await http.get(Uri.https('letsorderapi.herokuapp.com', '?tipo=diretto&lista=bosomurbino'));
-
+    // *** Dichiarazione variabili ***
     String luogo = luogoEvento.replaceAll(' ', '');
 
-    debugPrint('NUOVO LUOGO: $luogo');
-
+    // Connessione al servizio
     final response = await http.get(
         Uri.parse("https://letsorderapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
         headers: {
@@ -292,6 +295,7 @@ class _DettagliEventoState extends State<DettagliEvento> {
 
     responseCode = response.statusCode;
 
+    // Se la connessione è andata a buon fine
     if(response.statusCode == 200){
       var jsonData = json.decode(response.body);
 
@@ -322,14 +326,13 @@ class _DettagliEventoState extends State<DettagliEvento> {
       setState(() {
 
       });
-
     }
-
   }
 
 
 
 
+  // Widget di costruzione della schermata di visualizzazione dettagli
   @override
   Widget build(BuildContext context) {
 
