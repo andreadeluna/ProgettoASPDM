@@ -30,16 +30,24 @@ class _ProfiloState extends State<Profilo> {
           children: <Widget> [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Nome: ",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      const Text(
+                        "Nome: ",
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "${doc.get('Nome')}",
-                    style: const TextStyle(fontSize: 24),
+                  Row(
+                    children: [
+                      Text(
+                        "${doc.get('Nome')}",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -47,16 +55,24 @@ class _ProfiloState extends State<Profilo> {
             SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "E-mail: ",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      const Text(
+                        "E-mail: ",
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "${doc.get('Email')}",
-                    style: const TextStyle(fontSize: 24),
+                  Row(
+                    children: [
+                      Text(
+                        "${doc.get('Email')}",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -64,16 +80,24 @@ class _ProfiloState extends State<Profilo> {
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Ruolo: ",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      const Text(
+                        "Ruolo: ",
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "${doc.get('TipoUtente')}",
-                    style: const TextStyle(fontSize: 24),
+                  Row(
+                    children: [
+                      Text(
+                        "${doc.get('TipoUtente')}",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -125,7 +149,7 @@ class _ProfiloState extends State<Profilo> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
@@ -134,36 +158,38 @@ class _ProfiloState extends State<Profilo> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 175,
-                                height: 175,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.grey[300],
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 175,
+                                  height: 175,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.grey[300],
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Icon(Icons.person, size: 160, color: Colors.white),
+                                  ),
                                 ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Icon(Icons.person, size: 160, color: Colors.white),
+                                const SizedBox(height: 30),
+                                StreamBuilder <QuerySnapshot> (
+                                  stream: db.collection('Utenti').where('Email', isEqualTo: '$email').snapshots(),
+                                  builder: (context, snapshot){
+                                    if(snapshot.hasData){
+                                      return Column(
+                                        children:
+                                        snapshot.data!.docs.map((doc) => buildItem(doc)).toList(),
+                                      );
+                                    }
+                                    else {
+                                      return SizedBox();
+                                    }
+                                  },
                                 ),
-                              ),
-                              const SizedBox(height: 30),
-                              StreamBuilder <QuerySnapshot> (
-                                stream: db.collection('Utenti').where('Email', isEqualTo: '$email').snapshots(),
-                                builder: (context, snapshot){
-                                  if(snapshot.hasData){
-                                    return Column(
-                                      children:
-                                      snapshot.data!.docs.map((doc) => buildItem(doc)).toList(),
-                                    );
-                                  }
-                                  else {
-                                    return SizedBox();
-                                  }
-                                },
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

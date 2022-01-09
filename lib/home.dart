@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
                     ),
                     Text(
                       "${doc.get('Orario')}",
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
                     ),
                     Text(
                       "${doc.get('Luogo')}",
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ],
                 ),

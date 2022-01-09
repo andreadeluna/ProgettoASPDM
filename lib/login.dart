@@ -14,10 +14,12 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final db = FirebaseFirestore.instance;
+  final _formKey = GlobalKey<FormState>();
+
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
-
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
@@ -31,11 +33,8 @@ class _LoginState extends State<Login> {
             inputDecorationTheme: const InputDecorationTheme(
                 focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.purple,
-                    )
-                )
-            )
-        ),
+              color: Colors.purple,
+            )))),
         home: Scaffold(
           resizeToAvoidBottomInset: false,
           body: Container(
@@ -105,37 +104,57 @@ class _LoginState extends State<Login> {
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       border: Border(
-                                        bottom:
-                                        BorderSide(color: Colors.grey[200]!),
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200]!),
                                       ),
                                     ),
                                     child: Form(
+                                      key: _formKey,
                                       child: Center(
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
-                                                style: const TextStyle(fontSize: 20),
+                                                style: const TextStyle(
+                                                    fontSize: 20),
                                                 controller: emailController,
-                                                decoration: const InputDecoration(
+                                                validator: validateEmail,
+                                                decoration:
+                                                    const InputDecoration(
                                                   labelText: "Email",
                                                   icon: Icon(Icons.mail),
                                                 ),
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
-                                                style: const TextStyle(fontSize: 20),
+                                                style: const TextStyle(
+                                                    fontSize: 20),
                                                 obscureText: true,
                                                 controller: passwordController,
-                                                decoration: const InputDecoration(
+                                                validator: validatePassword,
+                                                decoration:
+                                                    const InputDecoration(
                                                   labelText: "Password",
                                                   icon: Icon(Icons.lock),
                                                 ),
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    errorMessage,
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
@@ -148,25 +167,35 @@ class _LoginState extends State<Login> {
                             ),
                             const SizedBox(height: 100),
                             GestureDetector(
-                              onTap: () {
-                                authService
-                                    .signInWithEmailAndPassword(
-                                    emailController.text,
-                                    passwordController.text);
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  try {
+                                    _formKey.currentState!.save();
+                                    await authService
+                                        .signInWithEmailAndPassword(
+                                            emailController.text,
+                                            passwordController.text);
 
-                                Fluttertoast.showToast(
-                                  msg: "Login effettuato",
-                                  toastLength: Toast.LENGTH_LONG,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.blueGrey,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0,
-                                );
+                                    Fluttertoast.showToast(
+                                      msg: "Login effettuato",
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.blueGrey,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                    errorMessage = '';
+                                  } on FirebaseAuthException catch (error) {
+                                    errorMessage = error.message!;
+                                  }
+                                  setState(() {});
+                                }
                               },
                               child: Container(
                                 height: 50,
-                                margin: const EdgeInsets.symmetric(horizontal: 50),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 50),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50),
                                     color: Colors.purple[900]),
@@ -194,4 +223,27 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+}
+
+String? validateEmail(String? formEmail) {
+  if (formEmail == null || formEmail.isEmpty) {
+    return "L'indirizzo e-mail è richiesto";
+  }
+
+  String pattern = r'\w+@\w+\.\w+';
+  RegExp regex = RegExp(pattern);
+
+  if (!regex.hasMatch(formEmail)) {
+    return "Formato indirizzo e-mail non valido";
+  }
+
+  return null;
+}
+
+String? validatePassword(String? formPassword) {
+  if (formPassword == null || formPassword.isEmpty) {
+    return "La password è richiesta";
+  }
+
+  return null;
 }

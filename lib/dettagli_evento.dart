@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -5,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:progettoaspdm/mappa.dart';
-import 'package:progettoaspdm/models/user.dart';
 
 class DettagliEvento extends StatefulWidget {
 
@@ -18,10 +18,10 @@ class DettagliEvento extends StatefulWidget {
   _DettagliEventoState createState() => _DettagliEventoState(nomeEvento, luogoEvento);
 }
 
+int responseCode = 0;
 
 
-
-Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, String indirizzo) {
+Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, String indirizzo, int responseCode) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(30),
@@ -149,6 +149,24 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(3),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Indirizzo: ",
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "$indirizzo",
+                  maxLines: 8,
+                  style: TextStyle(fontSize: 22),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(3),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -169,6 +187,59 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
             ),
           ),
           SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(3),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Builder(
+                      builder: (context){
+                        if(responseCode == 200){
+                          return GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Mappa(posizione)));
+                              },
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.purple[900]),
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.map, color: Colors.white),
+                                        SizedBox(width: 3),
+                                        Text(
+                                          "Vai alla mappa!",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),);
+                        }
+                        else{
+                          return SizedBox(height: 1);
+                        }
+                      }
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
         ],
       ),
     ),
@@ -183,14 +254,25 @@ class _DettagliEventoState extends State<DettagliEvento> {
   String nomeEvento;
   String luogoEvento;
 
-  late String numeroTelefono;
-  late String indirizzo;
-  late String posizione;
+  late String numeroTelefono = '';
+  late String indirizzo = '';
+  late String posizione = '';
 
   _DettagliEventoState(this.nomeEvento, this.luogoEvento);
 
 
 
+  @override
+  void initState() {
+    super.initState();
+
+    Timer(
+      const Duration(seconds: 2),
+          () {
+            getLocaleData();
+      },
+    );
+  }
 
 
   Future getLocaleData() async {
@@ -202,11 +284,13 @@ class _DettagliEventoState extends State<DettagliEvento> {
     debugPrint('NUOVO LUOGO: $luogo');
 
     final response = await http.get(
-        Uri.parse("https://findeatapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
+        Uri.parse("https://letsorderapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
         headers: {
           HttpHeaders.acceptHeader: "application/json",
           HttpHeaders.userAgentHeader: "SampleApp/1.0"
         });
+
+    responseCode = response.statusCode;
 
     if(response.statusCode == 200){
       var jsonData = json.decode(response.body);
@@ -248,6 +332,23 @@ class _DettagliEventoState extends State<DettagliEvento> {
 
   @override
   Widget build(BuildContext context) {
+
+    /*initState(){
+      getLocaleData();
+      return Scaffold(
+        backgroundColor: Colors.purple[700],
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
+    initState();*/
+
+    getLocaleData();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dettagli evento',
@@ -271,19 +372,11 @@ class _DettagliEventoState extends State<DettagliEvento> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
+            /*ElevatedButton(
                 onPressed: (){
                   getLocaleData();
                 },
-                child: Text('Prova')),
-            ElevatedButton(
-                onPressed: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Mappa()));
-                },
-                child: Text('Mappa')),
+                child: Text('Prova')),*/
             const SizedBox(height: 30),
             Expanded(
               child: Container(
@@ -308,7 +401,7 @@ class _DettagliEventoState extends State<DettagliEvento> {
                           if(snapshot.hasData){
                             return Column(
                               children:
-                              snapshot.data!.docs.map((doc) => buildItem(doc, numeroTelefono, posizione, indirizzo)).toList(),
+                              snapshot.data!.docs.map((doc) => buildItem(doc, numeroTelefono, posizione, indirizzo, responseCode)).toList(),
                             );
                           }
                           else {

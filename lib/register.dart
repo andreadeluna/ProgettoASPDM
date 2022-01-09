@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:progettoaspdm/home.dart';
@@ -18,11 +19,11 @@ class _RegisterState extends State<Register> {
 
   final _formKey = GlobalKey<FormState>();
 
-  late String name;
-
   String? tipoUtente = 'User';
 
   final items = ["User", "Admin"];
+
+  String errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +41,8 @@ class _RegisterState extends State<Register> {
             inputDecorationTheme: const InputDecorationTheme(
                 focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.purple,
-                    )
-                )
-            )
-        ),
+              color: Colors.purple,
+            )))),
         home: Scaffold(
           resizeToAvoidBottomInset: false,
           body: Container(
@@ -114,28 +112,42 @@ class _RegisterState extends State<Register> {
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       border: Border(
-                                        bottom:
-                                        BorderSide(color: Colors.grey[200]!),
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200]!),
                                       ),
                                     ),
                                     child: Form(
                                       key: _formKey,
                                       child: Center(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Icon(Icons.settings, color: Colors.grey[500]),
-                                                  Text('Tipo utente', style: TextStyle(fontSize: 20, color: Colors.grey[700])),
+                                                  Icon(Icons.settings,
+                                                      color: Colors.grey[500]),
+                                                  Text('Tipo utente',
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: Colors
+                                                              .grey[700])),
                                                   DropdownButton<String>(
-                                                    items: items.map(buildMenuItem).toList(),
-                                                    hint: const Text("User", style: TextStyle(fontSize: 20)),
+                                                    items: items
+                                                        .map(buildMenuItem)
+                                                        .toList(),
+                                                    hint: const Text("User",
+                                                        style: TextStyle(
+                                                            fontSize: 20)),
                                                     value: tipoUtente,
-                                                    onChanged: (valore) => setState(() {
+                                                    onChanged: (valore) =>
+                                                        setState(() {
                                                       this.tipoUtente = valore;
                                                     }),
                                                   ),
@@ -143,47 +155,62 @@ class _RegisterState extends State<Register> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
-                                                style: const TextStyle(fontSize: 20),
+                                                style: const TextStyle(
+                                                    fontSize: 20),
                                                 controller: nameController,
                                                 validator: validateNome,
-                                                decoration: const InputDecoration(
+                                                decoration:
+                                                    const InputDecoration(
                                                   labelText: "Nome",
                                                   icon: Icon(Icons.person),
                                                 ),
-                                                onSaved: (value) => name = value!,
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
-                                                style: const TextStyle(fontSize: 20),
+                                                style: const TextStyle(
+                                                    fontSize: 20),
                                                 controller: emailController,
                                                 validator: validateEmail,
-                                                decoration: const InputDecoration(
+                                                decoration:
+                                                    const InputDecoration(
                                                   labelText: "Email",
                                                   icon: Icon(Icons.mail),
                                                 ),
-                                                onSaved: (value) => name = value!,
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: TextFormField(
-                                                style: const TextStyle(fontSize: 20),
+                                                style: const TextStyle(
+                                                    fontSize: 20),
                                                 obscureText: true,
                                                 controller: passwordController,
                                                 validator: validatePassword,
-                                                decoration: const InputDecoration(
+                                                decoration:
+                                                    const InputDecoration(
                                                   labelText: "Password",
                                                   icon: Icon(Icons.lock),
                                                 ),
                                               ),
                                             ),
-                                            // Center(
-                                            //   child: Text(errorMessage),
-                                            // ),
+                                            Center(
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    errorMessage,
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -196,50 +223,47 @@ class _RegisterState extends State<Register> {
                             GestureDetector(
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  // try{
+                                  try {
+                                    _formKey.currentState!.save();
+                                    DocumentReference ref =
+                                        await db.collection('Utenti').add(
+                                      {
+                                        'Email': emailController.text,
+                                        'Nome': nameController.text,
+                                        'TipoUtente': tipoUtente,
+                                        'Eventi': []
+                                      },
+                                    );
 
-                                  _formKey.currentState!.save();
-                                  DocumentReference ref = await db
-                                      .collection('Utenti')
-                                      .add(
-                                    {
-                                      'Email': emailController.text,
-                                      'Nome': nameController.text,
-                                      'TipoUtente': tipoUtente,
-                                      'Eventi': []
-                                    },
-                                  );
+                                    await authService
+                                        .createUserWithEmailAndPassword(
+                                            emailController.text,
+                                            passwordController.text);
+                                    debugPrint('Registrazione effettuata');
 
-                                  await authService.createUserWithEmailAndPassword(
-                                      emailController.text, passwordController.text);
-                                  debugPrint('Registrazione effettuata');
-
-                                  setState(() {
                                     id = ref.id;
-                                    debugPrint(ref.id);
-                                    debugPrint('Campo database creato');
-                                  });
 
-                                  Fluttertoast.showToast(
-                                    msg: "Registrazione effettuata",
-                                    toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.blueGrey,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0,
-                                  );
+                                    Fluttertoast.showToast(
+                                      msg: "Registrazione effettuata",
+                                      toastLength: Toast.LENGTH_LONG,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.blueGrey,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                    errorMessage = '';
+                                  } on FirebaseAuthException catch (error) {
+                                    errorMessage = error.message!;
+                                  }
 
-                                  //Navigator.pop(context);
-                                  // errorMessage = '';
-                                  // } on FirebaseAuthException catch (error){
-                                  //   errorMessage = error.message!;
-                                  // }
+                                  setState(() {});
                                 }
                               },
                               child: Container(
                                 height: 50,
-                                margin: const EdgeInsets.symmetric(horizontal: 50),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 50),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50),
                                     color: Colors.purple[900]),
