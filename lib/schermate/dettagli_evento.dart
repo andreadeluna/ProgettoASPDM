@@ -9,31 +9,33 @@ import 'package:progettoaspdm/schermate/mappa.dart';
 // Dettagli evento: permette di visualizzare i dettagli dell'evento
 // e di visualizzare di conseguenza la posizione del locale
 class DettagliEvento extends StatefulWidget {
-
   // *** Dichiarazione variabili ***
   String nomeEvento;
   String luogoEvento;
 
-  DettagliEvento(this.nomeEvento, this.luogoEvento);
+  DettagliEvento(this.nomeEvento, this.luogoEvento, {Key? key})
+      : super(key: key);
 
   @override
-  _DettagliEventoState createState() => _DettagliEventoState(nomeEvento, luogoEvento);
+  _DettagliEventoState createState() =>
+      _DettagliEventoState(nomeEvento, luogoEvento);
 }
 
 // *** Dichiarazione variabili ***
 int responseCode = 0;
 
 // Widget per la visualizzazione dei dettagli
-Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, String indirizzo, int responseCode) {
+Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione,
+    String indirizzo, int responseCode) {
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(30),
     ),
     child: Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget> [
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(3),
             child: Row(
@@ -41,12 +43,13 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
               children: [
                 Text(
                   "${doc.get('NomeEvento')}",
-                  style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 35, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.all(3),
             child: Row(
@@ -57,15 +60,16 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
                   children: [
                     const Text(
                       "Orario: ",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
-                        Icon(Icons.access_time),
-                        SizedBox(width: 3),
+                        const Icon(Icons.access_time),
+                        const SizedBox(width: 3),
                         Text(
                           "${doc.get('Orario')}",
-                          style: TextStyle(fontSize: 22),
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
@@ -76,15 +80,16 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
                   children: [
                     const Text(
                       "Giorno: ",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today_sharp),
-                        SizedBox(width: 3),
+                        const Icon(Icons.calendar_today_sharp),
+                        const SizedBox(width: 3),
                         Text(
                           "${doc.get('Data')}",
-                          style: TextStyle(fontSize: 22),
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
@@ -93,7 +98,7 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(3),
             child: Row(
@@ -102,17 +107,18 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Luogo: ",
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
-                        Icon(Icons.location_on),
-                        SizedBox(width: 3),
+                        const Icon(Icons.location_on),
+                        const SizedBox(width: 3),
                         Text(
                           "${doc.get('Luogo')}",
-                          style: TextStyle(fontSize: 22),
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
@@ -121,7 +127,7 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(3),
             child: Row(
@@ -130,17 +136,18 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Telefono: ",
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Row(
                       children: [
-                        Icon(Icons.phone),
-                        SizedBox(width: 3),
+                        const Icon(Icons.phone),
+                        const SizedBox(width: 3),
                         Text(
-                          "$numeroTelefono",
-                          style: TextStyle(fontSize: 22),
+                          numeroTelefono,
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
@@ -149,25 +156,25 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(3),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Indirizzo: ",
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "$indirizzo",
+                  indirizzo,
                   maxLines: 8,
-                  style: TextStyle(fontSize: 22),
+                  style: const TextStyle(fontSize: 22),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(3),
             child: Row(
@@ -176,20 +183,21 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Descrizione: ",
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "${doc.get('Descrizione')}",
-                      style: TextStyle(fontSize: 22),
+                      style: const TextStyle(fontSize: 22),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(3),
             child: Row(
@@ -198,47 +206,45 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Builder(
-                      builder: (context){
-                        if(responseCode == 200){
-                          // Visualizzazione posizzione del locale in una mappa
-                          return GestureDetector(
-                              onTap: (){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Mappa(posizione)));
-                              },
-                              child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.purple[900]),
-                                child: Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.map, color: Colors.white),
-                                        SizedBox(width: 3),
-                                        Text(
-                                          "Vai alla mappa!",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
+                    Builder(builder: (context) {
+                      if (responseCode == 200) {
+                        // Visualizzazione posizzione del locale in una mappa
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Mappa(posizione)));
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.purple[900]),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Row(
+                                  children: const [
+                                    Icon(Icons.map, color: Colors.white),
+                                    SizedBox(width: 3),
+                                    Text(
+                                      "Vai alla mappa!",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ),);
-                        }
-                        else{
-                          return SizedBox(height: 1);
-                        }
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const SizedBox(height: 1);
                       }
-                    ),
+                    }),
                   ],
                 ),
               ],
@@ -249,7 +255,6 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione, St
     ),
   );
 }
-
 
 // Definizione pagina di visualizzazione dettagli
 class _DettagliEventoState extends State<DettagliEvento> {
@@ -263,7 +268,6 @@ class _DettagliEventoState extends State<DettagliEvento> {
 
   _DettagliEventoState(this.nomeEvento, this.luogoEvento);
 
-
   // Inizializzazione pagina
   @override
   void initState() {
@@ -272,22 +276,21 @@ class _DettagliEventoState extends State<DettagliEvento> {
     //  Caricamento dati da API
     Timer(
       const Duration(seconds: 2),
-          () {
-            getLocaleData();
+      () {
+        recuperaDatiLocale();
       },
     );
   }
 
-
   // Caricamento dati da API
-  Future getLocaleData() async {
-
+  Future recuperaDatiLocale() async {
     // *** Dichiarazione variabili ***
     String luogo = luogoEvento.replaceAll(' ', '');
 
     // Connessione al servizio
     final response = await http.get(
-        Uri.parse("https://letsorderapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
+        Uri.parse(
+            "https://letsorderapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
         headers: {
           HttpHeaders.acceptHeader: "application/json",
           HttpHeaders.userAgentHeader: "SampleApp/1.0"
@@ -296,7 +299,7 @@ class _DettagliEventoState extends State<DettagliEvento> {
     responseCode = response.statusCode;
 
     // Se la connessione è andata a buon fine
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
 
       debugPrint('RESPONSE: ${response.statusCode}');
@@ -305,37 +308,30 @@ class _DettagliEventoState extends State<DettagliEvento> {
       Map<String, dynamic> dati = json.decode(response.body);
       List<dynamic> locale = dati["lista"];
 
+      // Recupero dall'API il numero di telefono, l'indirizzo e la
+      // posizione del locale in cui si svolgerà l'evento
       numeroTelefono = locale[0]["numtell"];
       indirizzo = locale[0]["indirizzo"];
       posizione = locale[0]["posizione"];
 
-      debugPrint('NUMERO DI TELEFONO: ${numeroTelefono}\nPOSIZIONE: ${posizione}\nINDIRIZZO: ${indirizzo}');
+      debugPrint(
+          'NUMERO DI TELEFONO: $numeroTelefono\nPOSIZIONE: $posizione\nINDIRIZZO: $indirizzo');
 
-      setState(() {
-
-      });
-    }
-    else{
-
+      setState(() {});
+    } else {
       debugPrint('STATUSCODE: ${response.statusCode}');
 
       numeroTelefono = " ";
       indirizzo = " ";
       posizione = " ";
 
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
-
-
-
 
   // Widget di costruzione della schermata di visualizzazione dettagli
   @override
   Widget build(BuildContext context) {
-
     /*initState(){
       getLocaleData();
       return Scaffold(
@@ -350,7 +346,7 @@ class _DettagliEventoState extends State<DettagliEvento> {
 
     initState();*/
 
-    getLocaleData();
+    recuperaDatiLocale();
 
     return Scaffold(
       appBar: AppBar(
@@ -360,7 +356,7 @@ class _DettagliEventoState extends State<DettagliEvento> {
       ),
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 0),
+        padding: const EdgeInsets.symmetric(vertical: 0),
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -396,19 +392,23 @@ class _DettagliEventoState extends State<DettagliEvento> {
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: ListView(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     children: [
-                      StreamBuilder <QuerySnapshot> (
-                        stream: db.collection('Eventi').where('NomeEvento', isEqualTo: '$nomeEvento').snapshots(),
-                        builder: (context, snapshot){
-                          if(snapshot.hasData){
+                      StreamBuilder<QuerySnapshot>(
+                        stream: db
+                            .collection('Eventi')
+                            .where('NomeEvento', isEqualTo: nomeEvento)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
                             return Column(
-                              children:
-                              snapshot.data!.docs.map((doc) => buildItem(doc, numeroTelefono, posizione, indirizzo, responseCode)).toList(),
+                              children: snapshot.data!.docs
+                                  .map((doc) => buildItem(doc, numeroTelefono,
+                                      posizione, indirizzo, responseCode))
+                                  .toList(),
                             );
-                          }
-                          else {
-                            return SizedBox();
+                          } else {
+                            return const SizedBox();
                           }
                         },
                       ),

@@ -12,12 +12,11 @@ class AppDrawerAdmin extends StatelessWidget {
   // *** Dichiarazione variabili ***
   String email;
 
-  AppDrawerAdmin(this.email);
+  AppDrawerAdmin(this.email, {Key? key}) : super(key: key);
 
   // Definizione drawer
   @override
   Widget build(BuildContext context) {
-
     final authService = Provider.of<Autenticazione>(context);
 
     return Drawer(
@@ -39,22 +38,20 @@ class AppDrawerAdmin extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text('Profilo', style: TextStyle(fontSize: 20)),
+            title: const Text('Profilo', style: TextStyle(fontSize: 20)),
             onTap: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Profilo(email)));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Profilo(email)));
             },
           ),
           ListTile(
-            title: Text('Logout', style: TextStyle(fontSize: 20)),
+            title: const Text('Logout', style: TextStyle(fontSize: 20)),
             onTap: () async {
               await authService.signOut();
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PaginaIniziale()));
+                      builder: (context) => const PaginaIniziale()));
 
               // Toast di avvenuto logout
               Fluttertoast.showToast(

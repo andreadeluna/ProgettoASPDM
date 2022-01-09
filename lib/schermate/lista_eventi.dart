@@ -7,7 +7,7 @@ class ListaEventi extends StatefulWidget {
   // *** Dichiarazione variabili ***
   String email;
 
-  ListaEventi(this.email);
+  ListaEventi(this.email, {Key? key}) : super(key: key);
 
   @override
   _ListaEventiState createState() => _ListaEventiState(email);
@@ -29,107 +29,100 @@ class _ListaEventiState extends State<ListaEventi> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget> [
-            Builder(
-                builder: (context) {
-                  // Se sono presenti eventi
-                  if(List.from(doc['Eventi']).length > 0){
-
-                    for(int i = 0; i < List.from(doc['Eventi']).length; i++){
-
-                      textWidgetList.add(
-                          Column(
+          children: <Widget>[
+            Builder(builder: (context) {
+              // Se sono presenti eventi
+              if (List.from(doc['Eventi']).isNotEmpty) {
+                for (int i = 0; i < List.from(doc['Eventi']).length; i++) {
+                  textWidgetList.add(
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(3),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(3),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Evento ${i+1}",
-                                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
+                              Text(
+                                "Evento ${i + 1}",
+                                style: const TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
                               ),
-                              Padding(
-                                  padding: const EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Nome: ",
-                                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "${doc['Eventi'][i]['Evento']}",
-                                      style: const TextStyle(fontSize: 22),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Codice: ",
-                                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "${doc['Eventi'][i]['Codice']}",
-                                      style: const TextStyle(fontSize: 22),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Builder(builder: (context){
-                                if((i+1) < List.from(doc['Eventi']).length){
-                                  return Divider(color: Colors.grey);
-                                }
-                                else{
-                                  return SizedBox(height: 1);
-                                }
-                              })
                             ],
                           ),
-                      );
-                    }
-
-                    return Column(
-                      children: [
-                        Container(
-                          child: Column(
-                            children: textWidgetList,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Nome: ",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${doc['Eventi'][i]['Evento']}",
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                            ],
                           ),
-                        )
-                      ]
-                    );
-                  }
-                  else{
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text('Non sei iscritto a nessun evento ☹️',
-                              style: const TextStyle(fontSize: 21),
-                              textAlign: TextAlign.center,
-                            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Codice: ",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${doc['Eventi'][i]['Codice']}",
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  }
+                        ),
+                        Builder(builder: (context) {
+                          if ((i + 1) < List.from(doc['Eventi']).length) {
+                            return const Divider(color: Colors.grey);
+                          } else {
+                            return const SizedBox(height: 1);
+                          }
+                        })
+                      ],
+                    ),
+                  );
                 }
-            ),
-            //SizedBox(height: 12),
+
+                return Column(children: [
+                  Column(
+                    children: textWidgetList,
+                  )
+                ]);
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Non sei iscritto a nessun evento ☹️',
+                          style: TextStyle(fontSize: 21),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            }),
           ],
         ),
       ),
@@ -147,7 +140,7 @@ class _ListaEventiState extends State<ListaEventi> {
       ),
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 0),
+        padding: const EdgeInsets.symmetric(vertical: 0),
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -178,20 +171,23 @@ class _ListaEventiState extends State<ListaEventi> {
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: ListView(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     children: <Widget>[
                       // Visualizzazione iscrizioni
-                      StreamBuilder <QuerySnapshot> (
-                        stream: db.collection('Utenti').where('Email', isEqualTo: email).snapshots(),
-                        builder: (context, snapshot){
-                          if(snapshot.hasData){
+                      StreamBuilder<QuerySnapshot>(
+                        stream: db
+                            .collection('Utenti')
+                            .where('Email', isEqualTo: email)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
                             return Column(
-                              children:
-                              snapshot.data!.docs.map((doc) => buildItem(doc)).toList(),
+                              children: snapshot.data!.docs
+                                  .map((doc) => buildItem(doc))
+                                  .toList(),
                             );
-                          }
-                          else {
-                            return SizedBox();
+                          } else {
+                            return const SizedBox();
                           }
                         },
                       )
