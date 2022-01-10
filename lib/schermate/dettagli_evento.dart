@@ -38,7 +38,7 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(3),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -177,7 +177,7 @@ Card buildItem(DocumentSnapshot doc, String numeroTelefono, String posizione,
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(3),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
