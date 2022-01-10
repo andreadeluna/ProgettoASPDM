@@ -332,22 +332,6 @@ class _DettagliEventoState extends State<DettagliEvento> {
   // Widget di costruzione della schermata di visualizzazione dettagli
   @override
   Widget build(BuildContext context) {
-    /*initState(){
-      getLocaleData();
-      return Scaffold(
-        backgroundColor: Colors.purple[700],
-        body: Center(
-          child: CircularProgressIndicator(
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
-
-    initState();*/
-
-    recuperaDatiLocale();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dettagli evento',
@@ -371,11 +355,6 @@ class _DettagliEventoState extends State<DettagliEvento> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /*ElevatedButton(
-                onPressed: (){
-                  getLocaleData();
-                },
-                child: Text('Prova')),*/
             const SizedBox(height: 30),
             Expanded(
               child: Container(
