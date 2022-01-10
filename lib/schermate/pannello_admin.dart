@@ -673,19 +673,19 @@ class _FloatButtonState extends State<FloatButton> {
                                         setState(() {
                                           id = ref.id;
                                         });
+
+                                        Fluttertoast.showToast(
+                                          msg: "Evento creato",
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.blueGrey,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0,
+                                        );
+
+                                        Navigator.pop(context, false);
                                       }
-
-                                      Fluttertoast.showToast(
-                                        msg: "Evento creato",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.blueGrey,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0,
-                                      );
-
-                                      Navigator.pop(context, false);
                                     },
                                     child: Container(
                                       height: 50,

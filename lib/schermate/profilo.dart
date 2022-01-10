@@ -154,15 +154,15 @@ class _ProfiloState extends State<Profilo> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: SingleChildScrollView(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: Column(
                             children: [
                               Container(
@@ -200,8 +200,8 @@ class _ProfiloState extends State<Profilo> {
                             ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
