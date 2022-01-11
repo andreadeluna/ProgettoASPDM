@@ -208,6 +208,11 @@ All'interno del Drawer per l'utente di tipo User sarà possibile visualizzare un
 </div>
 
   - Oltre ai dati recuperati tramite database, all'interno della schermata di Dettaglio degli eventi sarà possibile visionare dei dati ricavati grazie alla connessione ad un servizio HTTP esterno (API REST basata sull'API Places di Google). I dati in questione saranno in particolare il numero di telefono, l'indirizzo e la posizione del locale che ospiterà l'evento selezionato. La posizione sarà inoltre utilizzata per visualizzare il locale all'interno di una mappa.
+<div align="center">
+  <row>
+    <a><img src='img/api.png' height='400' alt='icon'/></a>
+  </row>
+</div>
   - Ad ogni operazione effettuata ed andata a buon fine verrà visualizzato un toast di comunicazione (registrazione, login, logout, creazione evento, eliminazione evento).
   - Per l'integrazione dell'applicazione con Firebase per quanto riguarda i servizi di autenticazione e storage è stato necessario fornire del supporto specifico per tutte le piattaforme che supportano l'applicazione, in particolare andando ad integrare il servizio lato codice nativo nei file Gradle e AndroidManifest.xml per quanto riguarda Android, Info.plist e AppDelegate.swift per quanto riguarda iOS, e index.html per quanto riguarda il browser web.
 
