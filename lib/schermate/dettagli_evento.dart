@@ -290,7 +290,7 @@ class _DettagliEventoState extends State<DettagliEvento> {
     // Connessione al servizio
     final response = await http.get(
         Uri.parse(
-            "https://letsorderapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
+            "https://findeatapi.herokuapp.com/?tipo=diretto&lista=${luogo}urbino"),
         headers: {
           HttpHeaders.acceptHeader: "application/json",
           HttpHeaders.userAgentHeader: "SampleApp/1.0"
@@ -300,10 +300,6 @@ class _DettagliEventoState extends State<DettagliEvento> {
 
     // Se la connessione è andata a buon fine
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-
-      debugPrint('RESPONSE: ${response.statusCode}');
-      debugPrint('JSONDATA: $jsonData');
 
       Map<String, dynamic> dati = json.decode(response.body);
       List<dynamic> locale = dati["lista"];
@@ -314,13 +310,10 @@ class _DettagliEventoState extends State<DettagliEvento> {
       indirizzo = locale[0]["indirizzo"];
       posizione = locale[0]["posizione"];
 
-      debugPrint(
-          'NUMERO DI TELEFONO: $numeroTelefono\nPOSIZIONE: $posizione\nINDIRIZZO: $indirizzo');
-
       setState(() {});
     } else {
-      debugPrint('STATUSCODE: ${response.statusCode}');
-
+      debugPrint(
+          'IMPOSSIBILE CONNETTERSI AL SERVIZIO. STATUSCODE: ${response.statusCode}');
       numeroTelefono = " ";
       indirizzo = " ";
       posizione = " ";
