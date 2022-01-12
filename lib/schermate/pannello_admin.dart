@@ -22,6 +22,8 @@ class _PannelloAdminState extends State<PannelloAdmin> {
   late String id;
   String email;
   final db = FirebaseFirestore.instance;
+  List<Widget> textWidgetList = <Widget>[];
+
 
   _PannelloAdminState(this.email);
 
@@ -267,6 +269,116 @@ class _PannelloAdminState extends State<PannelloAdmin> {
     );
   }
 
+
+
+  Card buildIscritti(DocumentSnapshot doc) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Builder(builder: (context) {
+              // Se sono presenti iscritti
+              if (List.from(doc['Iscritti']).isNotEmpty) {
+                for (int i = 0; i < List.from(doc['Iscritti']).length; i++) {
+                  textWidgetList.add(
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(3),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Iscritto ${i + 1}",
+                                style: const TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Nome:",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${doc['Iscritti'][i]['Nome']}",
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Codice:",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${doc['Iscritti'][i]['Codice']}",
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Builder(builder: (context) {
+                          if ((i + 1) < List.from(doc['Iscritti']).length) {
+                            return const Divider(color: Colors.grey);
+                          } else {
+                            return const SizedBox(height: 1);
+                          }
+                        })
+                      ],
+                    ),
+                  );
+                }
+
+                return Column(children: [
+                  Column(
+                    children: textWidgetList,
+                  )
+                ]);
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Non sono presenti iscritti 😢',
+                          style: TextStyle(fontSize: 21),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
   // Widget di costruzione della schermata del pannello admin
   @override
   Widget build(BuildContext context) {
@@ -310,51 +422,156 @@ class _PannelloAdminState extends State<PannelloAdmin> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.purple[900]!,
-                            style: BorderStyle.solid,
-                            width: 2,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            bottomLeft: Radius.circular(30),
-                            bottomRight: Radius.circular(30),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListView(
-                            padding: const EdgeInsets.all(8),
-                            children: <Widget>[
-                              Column(
+                    child: OrientationBuilder(
+                      builder: (context, orientation){
+                        if(orientation == Orientation.portrait){
+                          return Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.purple[900]!,
+                                  style: BorderStyle.solid,
+                                  width: 2,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                  bottomLeft: Radius.circular(30),
+                                  bottomRight: Radius.circular(30),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListView(
+                                  padding: const EdgeInsets.all(8),
+                                  children: <Widget>[
+                                    Column(
+                                      children: [
+                                        // Visualizzazione eventi
+                                        StreamBuilder<QuerySnapshot>(
+                                          stream: db.collection('Eventi').snapshots(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Column(
+                                                children: snapshot.data!.docs
+                                                    .map((doc) => buildItem(doc))
+                                                    .toList(),
+                                              );
+                                            } else {
+                                              return const SizedBox();
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        else{
+                          return Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.purple[900]!,
+                                  style: BorderStyle.solid,
+                                  width: 2,
+                                ),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                  bottomLeft: Radius.circular(30),
+                                  bottomRight: Radius.circular(30),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  // Visualizzazione eventi
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: db.collection('Eventi').snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        return Column(
-                                          children: snapshot.data!.docs
-                                              .map((doc) => buildItem(doc))
-                                              .toList(),
-                                        );
-                                      } else {
-                                        return const SizedBox();
-                                      }
-                                    },
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: 700,
+                                          child: ListView(
+                                            padding: const EdgeInsets.all(8),
+                                            children: <Widget>[
+                                              Column(
+                                                children: [
+                                                  // Visualizzazione eventi
+                                                  StreamBuilder<QuerySnapshot>(
+                                                    stream: db.collection('Eventi').snapshots(),
+                                                    builder: (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Column(
+                                                          children: snapshot.data!.docs
+                                                              .map((doc) => buildItem(doc))
+                                                              .toList(),
+                                                        );
+                                                      } else {
+                                                        return const SizedBox();
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: 300,
+                                          child: ListView(
+                                            padding: const EdgeInsets.all(8),
+                                            children: <Widget>[
+                                              Column(
+                                                children: [
+                                                  // Visualizzazione eventi
+                                                  StreamBuilder<QuerySnapshot>(
+                                                    stream: db
+                                                        .collection('Eventi')
+                                                        .where('NomeEvento', isEqualTo: 'Concerto al Fuoritema')
+                                                        .snapshots(),
+                                                    builder: (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Column(
+                                                          children: snapshot.data!.docs
+                                                              .map((doc) => buildIscritti(doc))
+                                                              .toList(),
+                                                        );
+                                                      } else {
+                                                        return const SizedBox();
+                                                      }
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                              ),
+                            ),
+                          );
+                        }
+                      }
                     ),
                   ),
                 ],
