@@ -207,6 +207,13 @@ All'interno del Drawer per l'utente di tipo User sarà possibile visualizzare un
   </row>
 </div>
 
+- Il pannello admin, oltre ad essere responsive, avrà la caratteristica di potersi adattare in base all'orientamento dello schermo. In particolare, utilizzando l'app in modalità portrait consentirà di visualizzare la lista degli iscritti direttamente all'interno della schermata.
+<div align="center">
+  <row>
+    <a><img src='img/pannello_landscape.png' height='400' alt='icon'/></a>
+  </row>
+</div>
+
   - Oltre ai dati recuperati tramite database, all'interno della schermata di Dettaglio degli eventi sarà possibile visionare dei dati ricavati grazie alla connessione ad un servizio HTTP esterno (API REST basata sull'API Places di Google). I dati in questione saranno in particolare il numero di telefono, l'indirizzo e la posizione del locale che ospiterà l'evento selezionato. La posizione sarà inoltre utilizzata per visualizzare il locale all'interno di una mappa.
 <div align="center">
   <row>
